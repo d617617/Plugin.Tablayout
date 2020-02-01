@@ -85,9 +85,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Android\" />
     <Folder Include="IOS\" />
-    <Folder Include="Shared\" />
   </ItemGroup>
 
   <!--Additional item groups-->
