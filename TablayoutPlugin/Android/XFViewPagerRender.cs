@@ -1,6 +1,7 @@
 ﻿using Android.Content;
 using Android.Support.V4.App;
 using Android.Support.V4.View;
+using Android.Views;
 using Plugin.TablayoutPlugin.Shared;
 using System;
 using System.Collections.Generic;
@@ -46,6 +47,7 @@ namespace Plugin.TablayoutPlugin.Android
 
         protected override void OnAttachedToWindow()
         {
+            
             base.OnAttachedToWindow();
             if (_viewPager.Adapter == null)
             {
@@ -59,5 +61,8 @@ namespace Plugin.TablayoutPlugin.Android
                 //_pager.OffscreenPageLimit = 2;
             }
         }
+
+
+        
     }
 }
