@@ -11,15 +11,15 @@ using Xamarin.Forms.Platform.Android;
 
 namespace Plugin.TablayoutPlugin.Android
 {
-    public class XFViewPagerRender:ViewRenderer<XFViewPager,ViewPager>
+    public class XFViewPagerRender : ViewRenderer<XFViewPager, ViewPager>
     {
         ViewPager _viewPager = null;
         XFViewPager _xFViewPager = null;
 
         public XFViewPagerRender(Context context)
-            :base(context)
+            : base(context)
         {
-             SetWillNotDraw(false);
+            SetWillNotDraw(false);
         }
 
 
@@ -40,29 +40,24 @@ namespace Plugin.TablayoutPlugin.Android
             {
                 if (_xFViewPager == null)
                 {
-                    _xFViewPager = sender as XFViewPager;                   
+                    _xFViewPager = sender as XFViewPager;
                 }
             }
         }
 
         protected override void OnAttachedToWindow()
         {
-            
+
             base.OnAttachedToWindow();
             if (_viewPager.Adapter == null)
             {
-                List<Fragment> fragments = new List<Fragment>();
-                //foreach (var item in _LwyViewPager.Children)
-                //{
-                //    fragments.Add(new PageFragment(Context, item));
-                //}
-                //_pager.Adapter = new LwyPageFragAdapter(CrossCurrentActivity.Current.Activity.GetFragmentManager(), fragments);
-                //_pager.AddOnPageChangeListener(new ViewPagerChangeListerInstance(this));
-                //_pager.OffscreenPageLimit = 2;
+                var fm = Context.GetFragmentManager();
+                ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(fm, _xFViewPager.Pages);
+                _viewPager.Adapter = pagerAdapter;
             }
         }
 
 
-        
+
     }
 }

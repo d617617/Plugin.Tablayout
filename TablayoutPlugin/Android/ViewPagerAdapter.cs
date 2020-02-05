@@ -32,6 +32,8 @@ namespace Plugin.TablayoutPlugin.Android
 
         protected override void Dispose(bool disposing)
         {
+            Pages.Clear();
+            Pages = null;
             base.Dispose(disposing);
         }
 
