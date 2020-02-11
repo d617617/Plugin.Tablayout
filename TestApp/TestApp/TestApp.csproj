@@ -9,4 +9,14 @@
     <PackageReference Include="Xamarin.Forms" Version="4.3.0.908675" />  
     <PackageReference Include="Xamarin.Essentials" Version="1.3.1" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\TablayoutPlugin\TablayoutPlugin.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\TestPage.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>

@@ -10,6 +10,7 @@ using Xamarin.Forms.Xaml;
 using TestApp.Models;
 using TestApp.Views;
 using TestApp.ViewModels;
+using Plugin.TablayoutPlugin.Shared;
 
 namespace TestApp.Views
 {
@@ -25,31 +26,11 @@ namespace TestApp.Views
             InitializeComponent();
 
             BindingContext = viewModel = new ItemsViewModel();
+
+           // XFViewPager xFViewPager = new XFViewPager();
+            Console.WriteLine();
         }
 
-        async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
-        {
-            var item = args.SelectedItem as Item;
-            if (item == null)
-                return;
-
-            await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(item)));
-
-            // Manually deselect item.
-            ItemsListView.SelectedItem = null;
-        }
-
-        async void AddItem_Clicked(object sender, EventArgs e)
-        {
-            await Navigation.PushModalAsync(new NavigationPage(new NewItemPage()));
-        }
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-
-            if (viewModel.Items.Count == 0)
-                viewModel.LoadItemsCommand.Execute(null);
-        }
+    
     }
 }

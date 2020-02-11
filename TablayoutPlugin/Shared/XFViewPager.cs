@@ -15,6 +15,11 @@ namespace Plugin.TablayoutPlugin.Shared
         /// </summary>
         public IList<Page> Pages { get; set; }
 
+        public XFViewPager()
+        {
+            Pages = new List<Xamarin.Forms.Page>();
+        }
+
         protected override SizeRequest OnMeasure(double widthConstraint, double heightConstraint)
         {
             return base.OnMeasure(widthConstraint, heightConstraint);

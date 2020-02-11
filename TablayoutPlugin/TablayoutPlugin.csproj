@@ -89,16 +89,6 @@
     <Folder Include="IOS\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Remove="Shared\TestPage.xaml.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Shared\TestPage.xaml.cs">
-      <DependentUpon>%(Filename)</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
   <!--Additional item groups-->
   <!--
   <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.TVOS')) ">
