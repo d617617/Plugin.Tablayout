@@ -14,7 +14,7 @@
 
     <StackLayout>
         <Label Text="haha"></Label>
-        <shared:XFViewPager HorizontalOptions="FillAndExpand">
+        <shared:XFViewPager  HorizontalOptions="FillAndExpand">
             <shared:XFViewPager.Pages>
                 <views:TestPage></views:TestPage>
                 <views:TestPage></views:TestPage>

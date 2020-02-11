@@ -30,7 +30,7 @@ namespace TestApp.Views
            // XFViewPager xFViewPager = new XFViewPager();
             Console.WriteLine();
         }
+       
 
-    
     }
 }
