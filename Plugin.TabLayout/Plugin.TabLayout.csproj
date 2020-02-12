@@ -1,17 +1,17 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras/2.0.41">
+<Project Sdk="MSBuild.Sdk.Extras/2.0.29">
 
   <PropertyGroup>
     <!--Work around so the conditions work below-->
     <TargetFrameworks></TargetFrameworks>
-    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">netstandard1.0;netstandard2.0;Xamarin.iOS10;MonoAndroid81</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">netstandard1.0;netstandard2.0;Xamarin.iOS10;MonoAndroid81;uap10.0.16299</TargetFrameworks>
     <TargetFrameworks Condition=" '$(OS)' != 'Windows_NT' ">netstandard1.0;netstandard2.0;Xamarin.iOS10;MonoAndroid81</TargetFrameworks>
     <!--Feel free to add as many targets as you need below
     netstandard1.0;netstandard2.0;MonoAndroid81;Xamarin.iOS10;uap10.0.16299;Xamarin.TVOS10;Xamarin.WatchOS10;Xamarin.Mac20;Tizen40
     For UWP update the version number with a version number you have installed.
     -->
-    <AssemblyName>Plugin.TablayoutPlugin</AssemblyName>
-    <RootNamespace>Plugin.TablayoutPlugin</RootNamespace>
-    <PackageId>Plugin.TablayoutPlugin</PackageId>
+    <AssemblyName>Plugin.Plugin.TabLayout</AssemblyName>
+    <RootNamespace>Plugin.Plugin.TabLayout</RootNamespace>
+    <PackageId>Plugin.Plugin.TabLayout</PackageId>
     
     <Product>$(AssemblyName) ($(TargetFramework))</Product>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
@@ -33,17 +33,17 @@
     <PackageLicenseUrl>LINK TO LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>LINK TO PROJECT</PackageProjectUrl>
     <RepositoryUrl>LINK TO PROJECT</RepositoryUrl>
-    <PackageReleaseNotes>xamarin forms's viewpages and tabs </PackageReleaseNotes>
+    <PackageReleaseNotes>RELEASE NOTES</PackageReleaseNotes>
     <PackageIconUrl>ICON URL</PackageIconUrl>
-    <PackageTags>xamarin, windows, ios, android, xamarin.forms, plugin, TablayoutPlugin</PackageTags>
+    <PackageTags>xamarin, windows, ios, android, xamarin.forms, plugin, Plugin.TabLayout</PackageTags>
     
-    <Title>TablayoutPlugin Plugin for Xamarin and Windows</Title>
+    <Title>Plugin.TabLayout Plugin for Xamarin and Windows</Title>
     <Summary>Summary of nuget</Summary>
     <Description>Plugin Description</Description>
     
     
-    <Owners>Liwuyang</Owners>
-    <Authors>Liwuyang</Authors>
+    <Owners>YOU</Owners>
+    <Authors>YOU</Authors>
     <Copyright>Copyright 2018</Copyright>
   </PropertyGroup>
 
@@ -56,11 +56,11 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
-  
+  <ItemGroup>
+    <Compile Include="**\*.shared.cs" />
+  </ItemGroup>
 
   <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard')) ">
-	  <Compile Include="Shared\**\*.cs" />
-	  <PackageReference Include="Xamarin.Forms" Version="4.0.0.709238" />
   </ItemGroup>
 
   <ItemGroup Condition=" $(TargetFramework.StartsWith('uap10.0')) ">
@@ -74,17 +74,11 @@
   </ItemGroup>
 
   <ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
-	  <Compile Include="Shared\**\*.cs" />
-	  <Compile Include="Android\**\*.cs" />
-	  <PackageReference Include="Xamarin.Forms" Version="4.0.0.709238" />		  
+    <Compile Include="**\*.android.cs" />
   </ItemGroup>
 
   <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.iOS')) ">
     <Compile Include="**\*.apple.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="IOS\" />
   </ItemGroup>
 
   <!--Additional item groups-->

@@ -28,7 +28,7 @@ namespace TestApp.Views
             BindingContext = viewModel = new ItemsViewModel();
 
            // XFViewPager xFViewPager = new XFViewPager();
-            Console.WriteLine();
+            Console.WriteLine();           
         }
        
 

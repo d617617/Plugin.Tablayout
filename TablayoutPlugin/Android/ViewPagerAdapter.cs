@@ -10,30 +10,31 @@ namespace Plugin.TablayoutPlugin.Android
 {
     public class ViewPagerAdapter : FragmentStatePagerAdapter
     {
-        public IList<Xamarin.Forms.Page> Pages { get; set; }
+        public IList<Xamarin.Forms.View> XFViews { get; set; }
 
-        public override int Count => Pages.Count;
+        public override int Count => XFViews.Count;
 
 
 
-        public ViewPagerAdapter(FragmentManager fm, IList<Xamarin.Forms.Page> pages)
+        public ViewPagerAdapter(FragmentManager fm, IList<Xamarin.Forms.View> pages)
+
             :base(fm)
         {
-            Pages = new List<Xamarin.Forms.Page>();
-            this.Pages = pages;           
+            XFViews = new List<Xamarin.Forms.View>();
+            this.XFViews = pages;           
         }
 
         public override Fragment GetItem(int position)
         {
-            ViewPagerFragment fragment = new ViewPagerFragment(Pages[position]);
+            ViewPagerFragment fragment = new ViewPagerFragment(XFViews[position]);
             return fragment;
         }
 
 
         protected override void Dispose(bool disposing)
         {
-            Pages.Clear();
-            Pages = null;
+            XFViews.Clear();
+            XFViews = null;
             base.Dispose(disposing);
         }
 

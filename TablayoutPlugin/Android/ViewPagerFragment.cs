@@ -11,19 +11,19 @@ namespace Plugin.TablayoutPlugin.Android
 {
     public class ViewPagerFragment:Fragment
     {
-        Xamarin.Forms.Page Page { get; } 
-        public ViewPagerFragment(Xamarin.Forms.Page page)
+        Xamarin.Forms.View XFView { get; } 
+        public ViewPagerFragment(Xamarin.Forms.View view)
         {
-            this.Page = page;
+            this.XFView = view;
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            var view=ConvertXFPageToNative(Page,Context);
+            var view=ConvertXFPageToNative(XFView,Context);
             return view;
         }
 
-        public View ConvertXFPageToNative(Xamarin.Forms.Page page, Context context)
+        public View ConvertXFPageToNative(Xamarin.Forms.View page, Context context)
         {
             var vRenderer = page.GetRenderer();
             if (vRenderer == null)

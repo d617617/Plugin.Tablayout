@@ -14,12 +14,9 @@
 
     <StackLayout>
         <Label Text="haha"></Label>
-        <shared:XFViewPager  HorizontalOptions="FillAndExpand">
-            <shared:XFViewPager.Pages>
-                <views:TestPage></views:TestPage>
-                <views:TestPage></views:TestPage>
-            </shared:XFViewPager.Pages>
-           
+        <shared:XFViewPager  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <views:TestView Title2="第一页"></views:TestView>
+            <views:TestView Title2="第二页"></views:TestView>
         </shared:XFViewPager>
     </StackLayout>
 

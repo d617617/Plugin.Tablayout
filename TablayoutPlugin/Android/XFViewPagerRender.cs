@@ -7,10 +7,13 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
+using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
+[assembly: ExportRenderer(typeof(XFViewPager), typeof(Plugin.TablayoutPlugin.Android.XFViewPagerRender))]
 namespace Plugin.TablayoutPlugin.Android
 {
+  
     public class XFViewPagerRender : ViewRenderer<XFViewPager, ViewPager>
     {
         ViewPager _viewPager = null;
@@ -19,7 +22,7 @@ namespace Plugin.TablayoutPlugin.Android
         public XFViewPagerRender(Context context)
             : base(context)
         {
-            SetWillNotDraw(false);
+            SetWillNotDraw(false);            
         }
 
 
@@ -41,6 +44,7 @@ namespace Plugin.TablayoutPlugin.Android
                 if (_xFViewPager == null)
                 {
                     _xFViewPager = sender as XFViewPager;
+                    _xFViewPager.BackgroundColor = Xamarin.Forms.Color.Red;
                 }
             }
         }
@@ -52,7 +56,7 @@ namespace Plugin.TablayoutPlugin.Android
             if (_viewPager.Adapter == null)
             {
                 var fm = Context.GetFragmentManager();
-                ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(fm, _xFViewPager.Pages);
+                ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(fm, _xFViewPager.Children);
                 _viewPager.Adapter = pagerAdapter;
             }
         }

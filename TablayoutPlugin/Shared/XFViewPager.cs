@@ -10,26 +10,40 @@ namespace Plugin.TablayoutPlugin.Shared
     /// </summary>
     public class XFViewPager : Layout<View>
     {
-        Label lbl = new Label() { Text="233ew",FontSize=30};
-        /// <summary>
-        /// 页集合
-        /// </summary>
-        public IList<Page> Pages { get; set; }
 
-        public XFViewPager()
-        {
-            Pages = new List<Xamarin.Forms.Page>();
-            this.Children.Add(lbl);
-        }
-
+     
         protected override SizeRequest OnMeasure(double widthConstraint, double heightConstraint)
         {
-            return lbl.Measure(widthConstraint, heightConstraint);
+            if (Children.Count == 0)
+            {
+                return base.OnMeasure(widthConstraint, heightConstraint);
+            }
+            else
+            {
+                if (double.IsInfinity(heightConstraint))
+                {
+                    return new SizeRequest(new Size(widthConstraint, 0));
+                }
+                else
+                {
+                    return new SizeRequest(new Size(widthConstraint, heightConstraint));
+                }
+            }
+
         }
 
         protected override void LayoutChildren(double x, double y, double width, double height)
         {
-            this.lbl.Layout(new Rectangle(x,y,width,height));
+            if (Children.Count == 0)
+            {
+                return;
+            }
+            double itemX = x;
+            foreach (var item in Children)
+            {
+                item.Layout(new Rectangle(itemX, y, width, height));
+                itemX += width;
+            }
         }
     }
 }
