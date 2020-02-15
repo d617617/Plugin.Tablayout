@@ -1,4 +1,5 @@
 ﻿using Android.Content;
+using Android.Graphics;
 using Android.Support.V4.App;
 using Android.Support.V4.View;
 using Android.Views;
@@ -6,7 +7,9 @@ using Plugin.TablayoutPlugin.Shared;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Reflection;
 using System.Text;
+using System.Threading;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
@@ -25,27 +28,32 @@ namespace Plugin.TablayoutPlugin.Android
             SetWillNotDraw(false);            
         }
 
-
+      
         protected override void OnElementChanged(ElementChangedEventArgs<XFViewPager> e)
         {
             base.OnElementChanged(e);
             if (Control == null)
             {
                 _viewPager = new ViewPager(Context);
-                SetNativeControl(_viewPager);
+                SetNativeControl(_viewPager);                
             }
         }
 
+       
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             base.OnElementPropertyChanged(sender, e);
-            if (e.PropertyName == "Renderer")
+            var propName = e.PropertyName;
+            if (propName == "Renderer")
             {
                 if (_xFViewPager == null)
                 {
-                    _xFViewPager = sender as XFViewPager;
-                    _xFViewPager.BackgroundColor = Xamarin.Forms.Color.Red;
+                    _xFViewPager = sender as XFViewPager;                   
                 }
+            }
+            if (propName == XFViewPager.PageIndexProperty.PropertyName)
+            {
+                _viewPager.SetCurrentItem(_xFViewPager.PageIndex, true);
             }
         }
 
@@ -58,7 +66,9 @@ namespace Plugin.TablayoutPlugin.Android
                 var fm = Context.GetFragmentManager();
                 ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(fm, _xFViewPager.Children);
                 _viewPager.Adapter = pagerAdapter;
+              
             }
+                    
         }
 
 

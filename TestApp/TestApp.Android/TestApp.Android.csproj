@@ -66,6 +66,9 @@
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Test\TestViewPagerRender.cs" />
+    <Compile Include="Test\ViewPagerAdapter.cs" />
+    <Compile Include="Test\ViewPagerFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -94,10 +97,6 @@
     <AndroidResource Include="Resources\drawable\tab_feed.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\TablayoutPlugin\TablayoutPlugin.csproj">
-      <Project>{bcbf7ebf-7488-4f60-a6fb-34a5009489c9}</Project>
-      <Name>TablayoutPlugin</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TestApp\TestApp.csproj">
       <Project>{D2DCD3BB-979B-44C1-8974-2ACB27ED69F9}</Project>
       <Name>TestApp</Name>

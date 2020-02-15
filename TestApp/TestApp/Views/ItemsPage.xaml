@@ -2,9 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:shared="clr-namespace:Plugin.TablayoutPlugin.Shared;assembly=Plugin.TablayoutPlugin"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"             
              xmlns:views="clr-namespace:TestApp.Views"
+             xmlns:test="clr-namespace:TestApp.Test"
              mc:Ignorable="d"
              x:Class="TestApp.Views.ItemsPage"
              Title="{Binding Title}"
@@ -13,11 +13,15 @@
   
 
     <StackLayout>
-        <Label Text="haha"></Label>
-        <shared:XFViewPager  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+        <Button Text="点击测试" Clicked="Button_Clicked"></Button>
+        <Label  x:Name="testLbl"></Label>
+        <test:TestViewPager  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"                            
+                             x:Name="testPager" >
             <views:TestView Title2="第一页"></views:TestView>
             <views:TestView Title2="第二页"></views:TestView>
-        </shared:XFViewPager>
+            <views:TestView Title2="第三页"></views:TestView>
+            <views:TestView Title2="第四页"></views:TestView>
+        </test:TestViewPager>
     </StackLayout>
 
 </ContentPage>

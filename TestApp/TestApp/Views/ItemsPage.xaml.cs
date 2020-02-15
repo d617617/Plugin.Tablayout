@@ -28,9 +28,15 @@ namespace TestApp.Views
             BindingContext = viewModel = new ItemsViewModel();
 
            // XFViewPager xFViewPager = new XFViewPager();
-            Console.WriteLine();           
+            Console.WriteLine();
+         
+            testLbl.BindingContext = testPager.Rate;
+           
         }
-       
 
+        private void Button_Clicked(object sender, EventArgs e)
+        {
+            this.testPager.SetPageIndex(3, true);
+        }
     }
 }
