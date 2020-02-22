@@ -11,6 +11,12 @@ namespace TestApp.Test
         /// </summary>
         public double Rate { get; set; }
 
+
+        /// <summary>
+        /// 当前的索引值
+        /// </summary>
+        public int NowIndex { get; set; }
+
         /// <summary>
         /// 目标Index
         /// </summary>

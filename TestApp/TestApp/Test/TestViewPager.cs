@@ -11,26 +11,37 @@ namespace TestApp.Test
     
         public int PageIndex
         {
-            get;
+            get;private set;
         }
 
-      
+
         #endregion
 
+        public void SetPageIndexByRender(int pageIndex)
+        {
+            PageIndex = pageIndex;
+        }
+
+        public event Action<object, EventArgs> PageIndexChanged;
+        public event Action<object, PagerScrollEvent> PagerScroll;
 
 
         public double Rate { get; set; }
 
+      
 
+        #region 设置页面索引
         public Action<int, bool> SetPageIndexAction;
-        public void SetPageIndex(int targetIndex,bool isSmooth) 
+        public void SetPageIndex(int targetIndex, bool isSmooth)
         {
-            if (targetIndex==PageIndex||targetIndex<0||targetIndex>=Children.Count)
+            if (targetIndex == PageIndex || targetIndex < 0 || targetIndex >= Children.Count)
             {
                 return;
             }
-            SetPageIndexAction(targetIndex,isSmooth);
+            SetPageIndexAction(targetIndex, isSmooth);
         }
+
+        #endregion
 
         protected override SizeRequest OnMeasure(double widthConstraint, double heightConstraint)
         {

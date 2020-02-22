@@ -23,6 +23,9 @@ namespace TestApp.Droid.Test
     {
         ViewPager _viewPager = null;
         TestViewPager _xFViewPager = null;
+
+        int XFPagerIndex => _xFViewPager.PageIndex;
+
         bool isFirst;
         public TestViewPagerRender(Context context)
             : base(context)
@@ -35,11 +38,21 @@ namespace TestApp.Droid.Test
         protected override void OnElementChanged(ElementChangedEventArgs<TestViewPager> e)
         {
             base.OnElementChanged(e);
-            if (Control == null)
+            if (e.OldElement != null)
             {
-                _viewPager = new ViewPager(Context);              
-                SetNativeControl(_viewPager);                
+                // Unsubscribe from event handlers and cleanup any resources
             }
+
+            if (e.NewElement != null)
+            {
+                if (Control == null)
+                {
+                    _viewPager = new ViewPager(Context);
+                    SetNativeControl(_viewPager);
+                }
+                // Configure the control and subscribe to event handlers
+            }
+            
         }
 
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -91,11 +104,20 @@ namespace TestApp.Droid.Test
 
         private void _viewPager_PageScrolled(object sender, ViewPager.PageScrolledEventArgs e)
         {
-            if (e.PositionOffset==0)
+            PagerScrollEvent scrollEvent = new PagerScrollEvent();
+            var rate = e.PositionOffset;          
+            if (e.PositionOffset==0) //若为0，则停止滑动
             {
-                _xFViewPager.PageIndex = e.Position;
+                rate = 1;//校正滑动停止值
             }
-            Log.Debug("22", $"{e.PositionOffset},postion:{e.Position};{e.PositionOffsetPixels}");
+            scrollEvent.Rate = rate;            
+            if ( (XFPagerIndex-1)==e.Position) //向左滑动
+            {
+
+            }
+         
+            
+            Log.Debug("22", $"{e.PositionOffset},postion:{e.Position}");
         }
 
         private void _viewPager_ScrollChange(object sender, ScrollChangeEventArgs e)
