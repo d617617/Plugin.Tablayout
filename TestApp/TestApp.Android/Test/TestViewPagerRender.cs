@@ -103,26 +103,22 @@ namespace TestApp.Droid.Test
         }
 
         private void _viewPager_PageScrolled(object sender, ViewPager.PageScrolledEventArgs e)
-        {
-            PagerScrollEvent scrollEvent = new PagerScrollEvent();
+        {            
+            PagerScrollEventArgs scrollEvent = new PagerScrollEventArgs();
             var rate = e.PositionOffset;          
             if (e.PositionOffset==0) //若为0，则停止滑动
             {
                 rate = 1;//校正滑动停止值
             }
-            scrollEvent.Rate = rate;            
-            if ( (XFPagerIndex-1)==e.Position) //向左滑动
-            {
-
-            }
-         
+            scrollEvent.Rate = rate;
+            _xFViewPager.PagerScrollEventDone(scrollEvent);
             
-            Log.Debug("22", $"{e.PositionOffset},postion:{e.Position}");
+            Log.Debug("22", $"{e.PositionOffset},postion:{e.Position},{this.Width}");
         }
 
         private void _viewPager_ScrollChange(object sender, ScrollChangeEventArgs e)
         {
-
+            var pageWidth=this.Width;
            // Log.Debug("22",$"{e.ScrollX}");
         }
     }

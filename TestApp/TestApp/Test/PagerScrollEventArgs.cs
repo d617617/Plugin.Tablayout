@@ -4,16 +4,17 @@ using System.Text;
 
 namespace TestApp.Test
 {
-    public class PagerScrollEvent:EventArgs
+    public class PagerScrollEventArgs:EventArgs
     {
         /// <summary>
         /// 比例
         /// </summary>
         public double Rate { get; set; }
 
+        public int StartIndex { get; set; }
 
         /// <summary>
-        /// 当前的索引值
+        /// 当前的索引值，在滑动中会变化
         /// </summary>
         public int NowIndex { get; set; }
 

@@ -30,8 +30,7 @@ namespace TestApp.Views
            // XFViewPager xFViewPager = new XFViewPager();
             Console.WriteLine();
          
-            testLbl.BindingContext = testPager.Rate;
-           
+            testLbl.BindingContext = testPager.Rate;            
         }
 
         private void Button_Clicked(object sender, EventArgs e)

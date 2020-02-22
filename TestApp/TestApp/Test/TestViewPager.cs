@@ -16,14 +16,22 @@ namespace TestApp.Test
 
 
         #endregion
+       
 
         public void SetPageIndexByRender(int pageIndex)
         {
             PageIndex = pageIndex;
+           
         }
 
+       
         public event Action<object, EventArgs> PageIndexChanged;
-        public event Action<object, PagerScrollEvent> PagerScroll;
+        public event Action<object, PagerScrollEventArgs> PagerScroll;
+
+        public void PagerScrollEventDone(PagerScrollEventArgs pagerScrollEvent) 
+        {
+            PagerScroll?.Invoke(this,pagerScrollEvent);
+        }
 
 
         public double Rate { get; set; }
@@ -34,10 +42,10 @@ namespace TestApp.Test
         public Action<int, bool> SetPageIndexAction;
         public void SetPageIndex(int targetIndex, bool isSmooth)
         {
-            if (targetIndex == PageIndex || targetIndex < 0 || targetIndex >= Children.Count)
-            {
-                return;
-            }
+            //if (targetIndex == PageIndex || targetIndex < 0 || targetIndex >= Children.Count)
+            //{
+            //    return;
+            //}
             SetPageIndexAction(targetIndex, isSmooth);
         }
 
