@@ -113,8 +113,13 @@ namespace TestApp.Droid.Test
             //}
             //scrollEvent.Rate = rate;
             //_xFViewPager.PagerScrollEventDone(scrollEvent);
-
-            Log.Debug("22", $"{e.PositionOffset},postion:{e.Position},{this.Width}");
+            if (e.PositionOffset==0&&e.Position==_viewPager.CurrentItem)
+            {
+                //Log.Debug("22", $"确实停止了!");
+                var to=Toast.MakeText(Context.ApplicationContext, "停止了", ToastLength.Short);
+                to.Show();
+            }
+            //Log.Debug("22", $"{e.PositionOffset},postion:{e.Position},{this.Width}");
         }
 
         private void _viewPager_ScrollChange(object sender, ScrollChangeEventArgs e)
@@ -149,6 +154,7 @@ namespace TestApp.Droid.Test
             var diffX =Math.Abs( targetIndex * pageWidth - nowPageScrollX);
             var moveX = Math.Abs(e.ScrollX - nowPageScrollX);
             scrollEvent.Rate = moveX / (double)diffX;
+            _xFViewPager.PagerScrollEventDone(scrollEvent);
         }
     }
 }

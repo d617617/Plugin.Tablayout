@@ -35,7 +35,8 @@ namespace TestApp.Views
 
         private void Button_Clicked(object sender, EventArgs e)
         {
-            this.testPager.SetPageIndex(3, true);
+            Random r = new Random();
+            this.testPager.SetPageIndex(r.Next(0,4), true);
         }
     }
 }
