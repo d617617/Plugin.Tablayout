@@ -10,12 +10,14 @@
              Title="{Binding Title}"
              x:Name="BrowseItemsPage">
 
-  
+
 
     <StackLayout>
         <Button Text="点击测试" Clicked="Button_Clicked"></Button>
         <Label  x:Name="testLbl"></Label>
-        <test:TestBoxViewWrapper HorizontalOptions="Start" VerticalOptions="Start" Padding="0,14"></test:TestBoxViewWrapper>
+        <test:TestBoxViewWrapper 
+            test:TestBoxViewWrapper.ItemsSourceBy="testPager"
+            HorizontalOptions="Start" VerticalOptions="Start" Padding="0,14"></test:TestBoxViewWrapper>
         <test:TestViewPager  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"                            
                              x:Name="testPager" >
             <views:TestView Title2="第一页"></views:TestView>

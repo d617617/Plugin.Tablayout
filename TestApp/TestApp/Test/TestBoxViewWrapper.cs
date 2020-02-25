@@ -9,7 +9,28 @@ namespace TestApp.Test
     {
         int pageCount = 4;
 
-        
+        public static readonly BindableProperty ItemsSourceByProperty =
+             BindableProperty.Create("ItemsSourceBy", typeof(VisualElement), typeof(TestBoxViewWrapper), 
+                 default(VisualElement), propertyChanged: (bindable, oldValue, newValue)
+          => LinkToCarouselView(bindable as TestBoxViewWrapper, newValue as TestViewPager));
+
+        [TypeConverter(typeof(ReferenceTypeConverter))]
+        public static VisualElement GetItemsSourceBy(BindableObject bindable) 
+        {
+            return (VisualElement)bindable.GetValue(ItemsSourceByProperty);
+        }
+
+        public static void SetItemsSourceBy(BindableObject bindable, VisualElement value)
+        {
+            bindable.SetValue(ItemsSourceByProperty, value);
+        }
+
+        static void LinkToCarouselView(TestBoxViewWrapper  testBoxView, TestViewPager carouselView)
+        {
+            var a = carouselView;
+        }
+
+
 
         BoxView BoxView = new BoxView() { BackgroundColor = Color.Red, HeightRequest = 8 };
         public TestBoxViewWrapper()
@@ -38,6 +59,7 @@ namespace TestApp.Test
             {
                 noxX += changeX;
             }
+            
             else
             {
                 noxX -= changeX;
