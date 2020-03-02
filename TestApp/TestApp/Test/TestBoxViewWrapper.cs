@@ -12,7 +12,7 @@ namespace TestApp.Test
         public static readonly BindableProperty ItemsSourceByProperty =
              BindableProperty.Create("ItemsSourceBy", typeof(VisualElement), typeof(TestBoxViewWrapper), 
                  default(VisualElement), propertyChanged: (bindable, oldValue, newValue)
-          => LinkToCarouselView(bindable as TestBoxViewWrapper, newValue as TestViewPager));
+          =>((TestBoxViewWrapper)bindable).LinkToCarouselView(bindable as TestBoxViewWrapper, newValue as TestViewPager));
 
         [TypeConverter(typeof(ReferenceTypeConverter))]
         public static VisualElement GetItemsSourceBy(BindableObject bindable) 
@@ -25,12 +25,12 @@ namespace TestApp.Test
             bindable.SetValue(ItemsSourceByProperty, value);
         }
 
-        static void LinkToCarouselView(TestBoxViewWrapper  testBoxView, TestViewPager carouselView)
+         void LinkToCarouselView(TestBoxViewWrapper  testBoxView, TestViewPager  viewPager)
         {
-            var a = carouselView;
+            viewPager.PagerScroll += TestViewPager_PagerScroll;
         }
 
-
+      
 
         BoxView BoxView = new BoxView() { BackgroundColor = Color.Red, HeightRequest = 8 };
         public TestBoxViewWrapper()

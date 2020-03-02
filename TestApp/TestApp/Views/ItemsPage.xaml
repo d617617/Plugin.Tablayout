@@ -5,6 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"             
              xmlns:views="clr-namespace:TestApp.Views"
              xmlns:test="clr-namespace:TestApp.Test"
+             xmlns:test2="clr-namespace:TestApp.Test2"
              mc:Ignorable="d"
              x:Class="TestApp.Views.ItemsPage"
              Title="{Binding Title}"
@@ -15,16 +16,48 @@
     <StackLayout>
         <Button Text="点击测试" Clicked="Button_Clicked"></Button>
         <Label  x:Name="testLbl"></Label>
-        <test:TestBoxViewWrapper 
+
+        <test2:NestContentView  >
+            <test2:TabLayout x:Name="myList2" TabType="LinearLayout" BackgroundColor="Yellow" Padding="10" >
+                <test2:TabLayout.ItemTemplate>
+                    <DataTemplate>
+                        <ContentView BackgroundColor="Red">
+                            <Label Text="{Binding }" HorizontalTextAlignment="Center"></Label>
+                        </ContentView>
+                    </DataTemplate>
+                </test2:TabLayout.ItemTemplate>
+            </test2:TabLayout>
+            <!--<test2:MyListView x:Name="myList" VerticalOptions="Start"  ItemSizingStrategy="MeasureFirstItem">
+                <test2:MyListView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal"
+                                       
+                           ItemSpacing="90" />
+                </test2:MyListView.ItemsLayout>
+                <test2:MyListView.ItemTemplate>
+                    <DataTemplate>
+                        <ContentView Padding="20" BackgroundColor="Red">
+                            <Label Text="{Binding }" FontSize="16" ></Label>
+                            <ContentView.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped">
+                                    
+                                </TapGestureRecognizer>
+                            </ContentView.GestureRecognizers>
+                        </ContentView>
+                    </DataTemplate>
+                </test2:MyListView.ItemTemplate>
+            </test2:MyListView>-->
+        </test2:NestContentView>
+
+        <!--<test:TestBoxViewWrapper 
             test:TestBoxViewWrapper.ItemsSourceBy="testPager"
             HorizontalOptions="Start" VerticalOptions="Start" Padding="0,14"></test:TestBoxViewWrapper>
-        <test:TestViewPager  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"                            
+        <test:TestViewPager                         
                              x:Name="testPager" >
             <views:TestView Title2="第一页"></views:TestView>
             <views:TestView Title2="第二页"></views:TestView>
             <views:TestView Title2="第三页"></views:TestView>
             <views:TestView Title2="第四页"></views:TestView>
-        </test:TestViewPager>
+        </test:TestViewPager>-->
     </StackLayout>
 
 </ContentPage>

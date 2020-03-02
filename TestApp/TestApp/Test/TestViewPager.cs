@@ -18,34 +18,43 @@ namespace TestApp.Test
         #endregion
        
 
-        public void SetPageIndexByRender(int pageIndex)
-        {
-            PageIndex = pageIndex;
-           
-        }
+   
 
-       
+        public Action<object, EventArgs> PageScrollStopped;
         public event Action<object, EventArgs> PageIndexChanged;
         public event Action<object, PagerScrollEventArgs> PagerScroll;
 
-        public void PagerScrollEventDone(PagerScrollEventArgs pagerScrollEvent) 
+        #region 由渲染器调用
+        public void PageScrollStoppedDone()
         {
-            PagerScroll?.Invoke(this,pagerScrollEvent);
+            PageScrollStopped?.Invoke(this, null);
+        }
+        public void PageIndexChangedDone()
+        {
+            PageIndexChanged?.Invoke(this, null);
         }
 
+        public void PagerScrollEventDone(PagerScrollEventArgs pagerScrollEvent)
+        {
+            PagerScroll?.Invoke(this, pagerScrollEvent);
+        }
 
-        public double Rate { get; set; }
+        public void SetPageIndexByRender(int pageIndex)
+        {
+            PageIndex = pageIndex;
+        }
 
-      
+        #endregion
+
 
         #region 设置页面索引
         public Action<int, bool> SetPageIndexAction;
         public void SetPageIndex(int targetIndex, bool isSmooth)
         {
-            //if (targetIndex == PageIndex || targetIndex < 0 || targetIndex >= Children.Count)
-            //{
-            //    return;
-            //}
+            if (targetIndex == PageIndex || targetIndex < 0 || targetIndex >= Children.Count)
+            {
+                return;
+            }
             SetPageIndexAction(targetIndex, isSmooth);
         }
 

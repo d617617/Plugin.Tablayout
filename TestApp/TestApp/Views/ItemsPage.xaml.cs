@@ -26,17 +26,27 @@ namespace TestApp.Views
             InitializeComponent();
 
             BindingContext = viewModel = new ItemsViewModel();
-
-           // XFViewPager xFViewPager = new XFViewPager();
-            Console.WriteLine();
-         
-            testLbl.BindingContext = testPager.Rate;            
+            List<string> datas = new List<string>();
+            for (int i = 0; i < 4; i++)
+            {
+                datas.Add($"第{i}项");
+            }
+            myList2.ItemSource = datas;
+            //BindableLayout.SetItemsSource(stLayout, datas);          
+            // myList.ItemsSource = new List<string>() { "11","22","33","44","55","666"};
         }
 
         private void Button_Clicked(object sender, EventArgs e)
         {
             Random r = new Random();
-            this.testPager.SetPageIndex(r.Next(0,4), true);
+            //this.testPager.SetPageIndex(r.Next(0,4), true);
+            //myList.Test();
+        }
+
+        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        {
+            var a = sender as View;
+           
         }
     }
 }

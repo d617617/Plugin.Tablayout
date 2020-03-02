@@ -11,6 +11,6 @@ namespace Plugin.TablayoutPlugin.Shared
 
         event Action<object, EventArgs> TabItemTapped;
 
-        event Action<object, EventArgs> ViewPagerScroll;
+        event Action<object, PagerScrollEventArgs> ViewPagerScroll;
     }
 }

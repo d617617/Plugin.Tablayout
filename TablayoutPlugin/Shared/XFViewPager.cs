@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
+using Plugin.TablayoutPlugin.Shared;
 
 namespace Plugin.TablayoutPlugin.Shared
 {
@@ -11,32 +12,57 @@ namespace Plugin.TablayoutPlugin.Shared
     public class XFViewPager : Layout<View>
     {
         #region PageIndex
-        public static readonly BindableProperty PageIndexProperty =
- BindableProperty.Create(
-     nameof(PageIndex),
-     typeof(int),
-     typeof(XFViewPager),
-     0,
-     BindingMode.Default,
-     propertyChanged: (obj, o, n) =>
-     {
-         //((XFViewPager)obj).PageIndexChanged?.Invoke(obj, new EventArgs());
-     }
-  );
 
         public int PageIndex
         {
-            get => (int)GetValue(PageIndexProperty);
-            set => SetValue(PageIndexProperty, value);
+            get; private set;
         }
 
-        void PageIndexChanged() 
-        { 
-            
-        }
+
         #endregion
 
 
+
+
+        public Action<object, EventArgs> PageScrollStopped;
+        public event Action<object, EventArgs> PageIndexChanged;
+        public event Action<object, PagerScrollEventArgs> PagerScroll;
+
+        #region 由渲染器调用
+        public void PageScrollStoppedDone()
+        {
+            PageScrollStopped?.Invoke(this, null);
+        }
+        public void PageIndexChangedDone()
+        {
+            PageIndexChanged?.Invoke(this, null);
+        }
+
+        public void PagerScrollEventDone(PagerScrollEventArgs pagerScrollEvent)
+        {
+            PagerScroll?.Invoke(this, pagerScrollEvent);
+        }
+
+        public void SetPageIndexByRender(int pageIndex)
+        {
+            PageIndex = pageIndex;
+        }
+
+        #endregion
+
+
+        #region 设置页面索引
+        public Action<int, bool> SetPageIndexAction;
+        public void SetPageIndex(int targetIndex, bool isSmooth)
+        {
+            if (targetIndex == PageIndex || targetIndex < 0 || targetIndex >= Children.Count)
+            {
+                return;
+            }
+            SetPageIndexAction(targetIndex, isSmooth);
+        }
+
+        #endregion
 
         protected override SizeRequest OnMeasure(double widthConstraint, double heightConstraint)
         {
@@ -71,5 +97,25 @@ namespace Plugin.TablayoutPlugin.Shared
                 itemX += width;
             }
         }
+    }
+
+    public class PagerScrollEventArgs
+    {
+        /// <summary>
+        /// 比例
+        /// </summary>
+        public double Rate { get; set; }
+
+        public int StartIndex { get; set; }
+
+        /// <summary>
+        /// 当前的索引值，在滑动中会变化
+        /// </summary>
+        public int NowIndex { get; set; }
+
+        /// <summary>
+        /// 目标Index
+        /// </summary>
+        public int TargetIndex { get; set; }
     }
 }

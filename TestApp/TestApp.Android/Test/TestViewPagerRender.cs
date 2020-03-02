@@ -50,8 +50,7 @@ namespace TestApp.Droid.Test
                 {
                     _viewPager = new ViewPager(Context);
                     SetNativeControl(_viewPager);
-                }
-                // Configure the control and subscribe to event handlers
+                }          
             }
 
         }
@@ -82,49 +81,35 @@ namespace TestApp.Droid.Test
                 var fm = Context.GetFragmentManager();
                 ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(fm, _xFViewPager.Children);
                 _viewPager.Adapter = pagerAdapter;
-
             }
-
         }
 
         protected override void OnLayout(bool changed, int left, int top, int right, int bottom)
         {
             base.OnLayout(changed, left, top, right, bottom);
-
             if (!isFirst)
-            {
-                _viewPager.ScrollChange += _viewPager_ScrollChange;
-                _viewPager.PageScrolled += _viewPager_PageScrolled;
-                //if (_xFViewPager.PageIndex != (int)TestViewPager.PageIndexProperty.DefaultValue)
-                //{
-                //    _viewPager.SetCurrentItem(_xFViewPager.PageIndex, false);                    
-                //}
+            {               
+                _viewPager.ScrollChange += ViewPager_ScrollChange;
+                _viewPager.PageScrolled += ViewPager_PageScrolled;            
                 isFirst = true;
             }
         }
 
-        private void _viewPager_PageScrolled(object sender, ViewPager.PageScrolledEventArgs e)
-        {
-            //PagerScrollEventArgs scrollEvent = new PagerScrollEventArgs();
-            //var rate = e.PositionOffset;
-            //if (e.PositionOffset == 0) //若为0，则停止滑动
-            //{
-            //    rate = 1;//校正滑动停止值
-            //}
-            //scrollEvent.Rate = rate;
-            //_xFViewPager.PagerScrollEventDone(scrollEvent);
-            if (e.PositionOffset==0&&e.Position==_viewPager.CurrentItem)
-            {
-                //Log.Debug("22", $"确实停止了!");
-                var to=Toast.MakeText(Context.ApplicationContext, "停止了", ToastLength.Short);
-                to.Show();
-            }
-            //Log.Debug("22", $"{e.PositionOffset},postion:{e.Position},{this.Width}");
+        void ViewPager_PageScrolled(object sender, ViewPager.PageScrolledEventArgs e)
+        {           
+            if (e.PositionOffset==0)
+            {               
+                _xFViewPager.SetPageIndexByRender(e.Position);
+                _xFViewPager.PageIndexChangedDone();
+                if (e.Position == _viewPager.CurrentItem)
+                {
+                    _xFViewPager.PageScrollStoppedDone();
+                }             
+            }       
         }
 
-        private void _viewPager_ScrollChange(object sender, ScrollChangeEventArgs e)
+         void ViewPager_ScrollChange(object sender, ScrollChangeEventArgs e)
         {
-
             var pageWidth = this.Width;
             var nowScrollX = e.ScrollX;
             var nowPageScrollX = pageWidth * XFPagerIndex;
