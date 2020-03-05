@@ -4,12 +4,15 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using TestApp.Test;
 using Xamarin.Forms;
 
 namespace TestApp.Test2
 {
     public class TabLayout : Layout<View>, ITabElement
     {
+        List<View> sourceViews = null;
+
         #region DataTemplet
         public static readonly BindableProperty ItemTemplateProperty = BindableProperty.Create(
             nameof(ItemTemplate), typeof(DataTemplate), typeof(TabLayout),
@@ -28,7 +31,7 @@ namespace TestApp.Test2
         public static readonly BindableProperty ItemSourceProperty = BindableProperty.Create(
             nameof(ItemSource), typeof(IList), typeof(TabLayout),
             default(IList),
-            propertyChanged: (obj, o, n) => ((TabLayout)obj).ItemSourcePropChanged()
+            propertyChanged: (obj, o, n) => ((TabLayout)obj).DataRender()
             );
         public IList ItemSource
         {
@@ -36,23 +39,7 @@ namespace TestApp.Test2
             set { SetValue(ItemSourceProperty, value); }
         }
 
-        void ItemSourcePropChanged()
-        {
-            if (ItemSource == null)
-            {
-                return;
-            }
-            foreach (var item in ItemSource)
-            {
-                if (this.ItemTemplate == null)
-                {
-                    ItemTemplate = new DataTemplate(() => new Label());
-                }
-                var view = ItemTemplate.CreateContent() as View;
-                view.BindingContext = item;
-                Children.Add(view);
-            }
-        }
+
         #endregion
 
         #region Space
@@ -67,14 +54,113 @@ namespace TestApp.Test2
         }
         #endregion
 
-        public TabType TabType { get; set; }
+        #region TabType
+        public static readonly BindableProperty TabTypeProperty = BindableProperty.Create(
+            nameof(TabType), typeof(TabType), typeof(TabLayout),
+            TabType.Grid
+            );
+        public TabType TabType
+        {
+            get => (TabType)GetValue(TabTypeProperty);
+            set { SetValue(TabTypeProperty, value); }
+        }
+        #endregion
+
+        #region TabItemIndex
+        public static readonly BindableProperty TabItemIndexProperty = BindableProperty.Create(
+            nameof(TabItemIndex), typeof(int), typeof(TabLayout),
+           0
+            );
+        public int TabItemIndex
+        {
+            get => (int)GetValue(TabItemIndexProperty);
+            set { SetValue(TabItemIndexProperty, value); }
+        }
+        #endregion
+
+        #region ItemSouceBy    
+        public static readonly BindableProperty ItemsSourceByProperty =
+            BindableProperty.Create("ItemsSourceBy", typeof(VisualElement), typeof(TestBoxViewWrapper),
+                default(VisualElement),
+            propertyChanged: (bindable, oldValue, newValue)
+         => ((TabLayout)bindable).LinkToViewPager());
+
+        [TypeConverter(typeof(ReferenceTypeConverter))]
+        public static VisualElement GetItemsSourceBy(BindableObject bindable)
+        {
+            return (VisualElement)bindable.GetValue(ItemsSourceByProperty);
+        }
+
+        public static void SetItemsSourceBy(BindableObject bindable, VisualElement value)
+        {
+            bindable.SetValue(ItemsSourceByProperty, value);
+        }
+        #endregion
+
+        #region AnimateHelper
+        public static readonly BindableProperty AnimateHelperProperty = BindableProperty.Create(
+            nameof(AnimateHelper), typeof(IAnimateHelper), typeof(TabLayout),
+           default(IAnimateHelper),
+           propertyChanged: (obj, o, n) =>
+           {
+               ((TabLayout)obj).LinkToViewPager();
+           }
+            );
+        public IAnimateHelper AnimateHelper
+        {
+            get => (IAnimateHelper)GetValue(AnimateHelperProperty);
+            set { SetValue(AnimateHelperProperty, value); }
+        }
+        #endregion
+
+
+        void DataRender()
+        {
+            if (ItemSource == null)
+            {
+                sourceViews.Clear();
+                return;
+            }
+            if (ItemTemplate == null)
+            {
+                return;
+            }
+            foreach (var item in ItemSource)
+            {
+                var view = ItemTemplate.CreateContent() as View;
+                view.BindingContext = item;
+                Children.Add(view);
+                sourceViews.Add(view);
+            }
+        }
+
+        void LinkToViewPager()
+        {
+            var viewPager = GetItemsSourceBy(this) as TestViewPager;
+            if (viewPager == null)
+            {
+                return;
+            }
+            if (AnimateHelper != null)
+            {
+                AnimateHelper.Attatch(this);
+                AnimateHelper.SetViewPagerAnimate(viewPager);
+            }
+        }
+
+
+        public TabLayout()
+        {
+            sourceViews = new List<View>();
+        }
+
 
         protected override SizeRequest OnMeasure(double widthConstraint, double heightConstraint)
         {
             var request = new Size();
             double maxHeight = 0;
             double widthAll = 0;
-            foreach (var item in Children)
+            foreach (var item in sourceViews)
             {
                 var size = item.Measure(widthConstraint, heightConstraint).Request;
                 if (size.Height > maxHeight)
@@ -95,11 +181,6 @@ namespace TestApp.Test2
                 case TabType.Center:
                     request.Width = widthConstraint;
                     break;
-                case TabType.LinearLayoutNoScroll:
-                    request.Width = widthConstraint;
-                    break;
-                default:
-                    break;
             }
             return new SizeRequest(request);
         }
@@ -118,23 +199,24 @@ namespace TestApp.Test2
                 case TabType.Center:
                     CenterLayout(x, y, width, height);
                     break;
-                case TabType.LinearLayoutNoScroll:
-                    LinearLayout(x, y, width, height); 
-                    break;
                 default:
                     break;
+            }
+            if (AnimateHelper != null)
+            {
+                AnimateHelper.LayoutAnimateElement(x, y, width, height);
             }
         }
 
         void GridLayout(double x, double y, double width, double height)
         {
-            var itemWidth = width / Children.Count;           
+            var itemWidth = width / sourceViews.Count;
             int count = 0;
-            foreach (var item in Children)
+            foreach (var item in sourceViews)
             {
                 var size = item.Measure(width, height).Request;
-                double startX = itemWidth * count+x;
-                var itemY = GetCenterY(size.Height,height);
+                double startX = itemWidth * count + x;
+                var itemY = GetCenterY(size.Height, height);
                 item.Layout(new Rectangle(startX, itemY, itemWidth, height));
                 count++;
             }
@@ -142,9 +224,9 @@ namespace TestApp.Test2
 
         void CenterLayout(double x, double y, double width, double height)
         {
-            double widthAll = this.Space * (this.Children.Count - 1);
+            double widthAll = this.Space * (this.sourceViews.Count - 1);
             Dictionary<View, Size> itemSizes = new Dictionary<View, Size>();
-            foreach (var item in Children)
+            foreach (var item in sourceViews)
             {
                 var size = item.Measure(width, height).Request;
                 itemSizes.Add(item, size);
@@ -161,67 +243,68 @@ namespace TestApp.Test2
                 }
                 var view = item.Key;
                 var size = item.Value;
-                var viewY = GetCenterY(size.Height,height);
+                var viewY = GetCenterY(size.Height, height);
                 view.Layout(new Rectangle(xAdd, viewY, size.Width, size.Height));
-                xAdd += size.Width;                
-                count++;               
-            }
-        }
-
-        void LinearLayout(double x, double y, double width, double height) 
-        {
-            int count = 0;
-            double xAdd = x;
-            foreach (var item in Children)
-            {
-                if (count>0)
-                {
-                    xAdd += Space;
-                }
-                var size = item.Measure(width,height).Request;
-                var itemY = GetCenterY(size.Height,height);
-                item.Layout(new Rectangle(xAdd,itemY,size.Width,size.Height));
                 xAdd += size.Width;
                 count++;
             }
         }
 
-        double GetCenterY(double itemHeight,double height) 
+        void LinearLayout(double x, double y, double width, double height)
         {
-            return (height + this.Padding.VerticalThickness - itemHeight) / 2; 
+            int count = 0;
+            double xAdd = x;
+            foreach (var item in sourceViews)
+            {
+                if (count > 0)
+                {
+                    xAdd += Space;
+                }
+                var size = item.Measure(width, height).Request;
+                var itemY = GetCenterY(size.Height, height);
+                item.Layout(new Rectangle(xAdd, itemY, size.Width, size.Height));
+                xAdd += size.Width;
+                count++;
+            }
+        }
+
+        double GetCenterY(double itemHeight, double height)
+        {
+            return (height + this.Padding.VerticalThickness - itemHeight) / 2;
         }
 
         public Point GetPoint(int index)
         {
-            var bounds = Children[index].Bounds;
-            var point = new Point(bounds.Left,bounds.Top);
+            var bounds = sourceViews[index].Bounds;
+            var point = new Point(bounds.X, bounds.Y);
             return point;
         }
 
         public Size GetSize(int index)
         {
-            var size = new Size() 
+            var size = new Size()
             {
-                Width=Children[index].Width,
-                Height=Children[index].Height
+                Width = sourceViews[index].Width,
+                Height = sourceViews[index].Height
             };
             return size;
         }
 
         public Rectangle GetRect(int index)
-        {            
+        {
             var point = GetPoint(index);
             var size = GetSize(index);
-            return new Rectangle(point,size);
+            return new Rectangle(point, size);
         }
+
+
+
     }
 
     public enum TabType
     {
         LinearLayout,
         Grid,
-        Center,
-        LinearLayoutNoScroll,
-        Custom
+        Center
     }
 }

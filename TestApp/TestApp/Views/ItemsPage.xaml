@@ -18,15 +18,21 @@
         <Label  x:Name="testLbl"></Label>
 
         <test2:NestContentView  >
-            <test2:TabLayout x:Name="myList2" TabType="LinearLayout" BackgroundColor="Yellow" Padding="10" >
+            <test2:TabLayout Space="15" x:Name="myList2" Padding="0,10"
+                             test2:TabLayout.ItemsSourceBy="testPager">
+                <test2:TabLayout.AnimateHelper>
+                    <test2:BarAnimateHelper BarHeight="10" BorderRadius="15" Offset="5">
+                    </test2:BarAnimateHelper>
+                </test2:TabLayout.AnimateHelper>
                 <test2:TabLayout.ItemTemplate>
                     <DataTemplate>
-                        <ContentView BackgroundColor="Red">
-                            <Label Text="{Binding }" HorizontalTextAlignment="Center"></Label>
+                        <ContentView >
+                            <Label Text="{Binding }" FontSize="18" HorizontalTextAlignment="Center"></Label>
                         </ContentView>
                     </DataTemplate>
                 </test2:TabLayout.ItemTemplate>
             </test2:TabLayout>
+
             <!--<test2:MyListView x:Name="myList" VerticalOptions="Start"  ItemSizingStrategy="MeasureFirstItem">
                 <test2:MyListView.ItemsLayout>
                     <LinearItemsLayout Orientation="Horizontal"
@@ -48,16 +54,14 @@
             </test2:MyListView>-->
         </test2:NestContentView>
 
-        <!--<test:TestBoxViewWrapper 
-            test:TestBoxViewWrapper.ItemsSourceBy="testPager"
-            HorizontalOptions="Start" VerticalOptions="Start" Padding="0,14"></test:TestBoxViewWrapper>
-        <test:TestViewPager                         
+      
+        <test:TestViewPager  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"                      
                              x:Name="testPager" >
             <views:TestView Title2="第一页"></views:TestView>
             <views:TestView Title2="第二页"></views:TestView>
             <views:TestView Title2="第三页"></views:TestView>
             <views:TestView Title2="第四页"></views:TestView>
-        </test:TestViewPager>-->
+        </test:TestViewPager>
     </StackLayout>
 
 </ContentPage>

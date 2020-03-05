@@ -12,5 +12,7 @@ namespace TestApp.Test2
         Size GetSize(int index);
 
         Rectangle GetRect(int index);
+
+       
     }
 }

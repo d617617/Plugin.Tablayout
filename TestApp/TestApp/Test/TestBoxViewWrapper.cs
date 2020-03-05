@@ -58,8 +58,7 @@ namespace TestApp.Test
             if (scrollArg.TargetIndex>scrollArg.StartIndex) //右移
             {
                 noxX += changeX;
-            }
-            
+            }            
             else
             {
                 noxX -= changeX;
