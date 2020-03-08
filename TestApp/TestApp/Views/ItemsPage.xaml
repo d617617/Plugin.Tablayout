@@ -19,10 +19,11 @@
 
         <test2:NestContentView  >
             <test2:TabLayout Space="15" x:Name="myList2" Padding="0,10"
+                             TabType="Center"
                              test2:TabLayout.ItemsSourceBy="testPager">
                 <test2:TabLayout.AnimateHelper>
-                    <test2:BarAnimateHelper BarHeight="10" BorderRadius="15" Offset="5">
-                    </test2:BarAnimateHelper>
+                    <test2:StretchBarAnimateHelper BarHeight="5" BorderRadius="15" WidthScale="1">
+                    </test2:StretchBarAnimateHelper>
                 </test2:TabLayout.AnimateHelper>
                 <test2:TabLayout.ItemTemplate>
                     <DataTemplate>
@@ -32,26 +33,6 @@
                     </DataTemplate>
                 </test2:TabLayout.ItemTemplate>
             </test2:TabLayout>
-
-            <!--<test2:MyListView x:Name="myList" VerticalOptions="Start"  ItemSizingStrategy="MeasureFirstItem">
-                <test2:MyListView.ItemsLayout>
-                    <LinearItemsLayout Orientation="Horizontal"
-                                       
-                           ItemSpacing="90" />
-                </test2:MyListView.ItemsLayout>
-                <test2:MyListView.ItemTemplate>
-                    <DataTemplate>
-                        <ContentView Padding="20" BackgroundColor="Red">
-                            <Label Text="{Binding }" FontSize="16" ></Label>
-                            <ContentView.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped">
-                                    
-                                </TapGestureRecognizer>
-                            </ContentView.GestureRecognizers>
-                        </ContentView>
-                    </DataTemplate>
-                </test2:MyListView.ItemTemplate>
-            </test2:MyListView>-->
         </test2:NestContentView>
 
       

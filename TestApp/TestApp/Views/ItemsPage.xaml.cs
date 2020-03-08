@@ -29,7 +29,14 @@ namespace TestApp.Views
             List<string> datas = new List<string>();
             for (int i = 0; i < 4; i++)
             {
-                datas.Add($"第{i}项");
+                var random = new Random();
+                var count=random.Next(0,5);
+                var str = "";
+                for (int j = 0; j < count; j++)
+                {
+                    str += j.ToString();
+                }
+                datas.Add($"第{str}项");
             }
             myList2.ItemSource = datas;
             //BindableLayout.SetItemsSource(stLayout, datas);          
@@ -39,7 +46,7 @@ namespace TestApp.Views
         private void Button_Clicked(object sender, EventArgs e)
         {
             Random r = new Random();
-            //this.testPager.SetPageIndex(r.Next(0,4), true);
+            this.testPager.SetPageIndex(3, true);
             //myList.Test();
         }
 

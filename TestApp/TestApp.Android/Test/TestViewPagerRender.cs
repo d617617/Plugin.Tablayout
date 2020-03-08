@@ -25,7 +25,7 @@ namespace TestApp.Droid.Test
         TestViewPager _xFViewPager = null;
 
         int XFPagerIndex => _xFViewPager.PageIndex;
-        
+
 
         bool isFirst;
         public TestViewPagerRender(Context context)
@@ -48,9 +48,9 @@ namespace TestApp.Droid.Test
             {
                 if (Control == null)
                 {
-                    _viewPager = new ViewPager(Context);
+                    _viewPager = new PageSelectedExt(Context);
                     SetNativeControl(_viewPager);
-                }          
+                }
             }
 
         }
@@ -88,28 +88,39 @@ namespace TestApp.Droid.Test
         {
             base.OnLayout(changed, left, top, right, bottom);
             if (!isFirst)
-            {               
+            {
                 _viewPager.ScrollChange += ViewPager_ScrollChange;
-                _viewPager.PageScrolled += ViewPager_PageScrolled;            
+                _viewPager.PageScrolled += ViewPager_PageScrolled;
+                _viewPager.PageSelected += _viewPager_PageSelected;
                 isFirst = true;
             }
         }
 
+        private void _viewPager_PageSelected(object sender, ViewPager.PageSelectedEventArgs e)
+        {
+            Log.Debug("22", $"PageSelected：{_viewPager.CurrentItem},xf中的索引为：{_xFViewPager.PageIndex}");
+        }
+
         void ViewPager_PageScrolled(object sender, ViewPager.PageScrolledEventArgs e)
-        {           
-            if (e.PositionOffset==0)
-            {               
+        {
+            if (e.PositionOffset == 0)
+            {
+                Log.Debug("22", $"事件前currentItem：{_viewPager.CurrentItem},xf中的索引为：{_xFViewPager.PageIndex}");
                 _xFViewPager.SetPageIndexByRender(e.Position);
+                Log.Debug("22", $"事件后currentItem：{_viewPager.CurrentItem},xf中的索引为：{_xFViewPager.PageIndex}");
                 _xFViewPager.PageIndexChangedDone();
                 if (e.Position == _viewPager.CurrentItem)
                 {
                     _xFViewPager.PageScrollStoppedDone();
-                }             
-            }       
+                }
+            }
         }
 
-         void ViewPager_ScrollChange(object sender, ScrollChangeEventArgs e)
+
+
+        void ViewPager_ScrollChange(object sender, ScrollChangeEventArgs e)
         {
+
             var pageWidth = this.Width;
             var nowScrollX = e.ScrollX;
             var nowPageScrollX = pageWidth * XFPagerIndex;
@@ -136,10 +147,30 @@ namespace TestApp.Droid.Test
                 }
             }
             scrollEvent.TargetIndex = targetIndex;
-            var diffX =Math.Abs( targetIndex * pageWidth - nowPageScrollX);
+            var diffX = Math.Abs(targetIndex * pageWidth - nowPageScrollX);
             var moveX = Math.Abs(e.ScrollX - nowPageScrollX);
             scrollEvent.Rate = moveX / (double)diffX;
             _xFViewPager.PagerScrollEventDone(scrollEvent);
+        }
+
+
+    }
+
+    public class PageSelectedExt : ViewPager
+    {
+        public PageSelectedExt(Context context) : base(context)
+        {
+        }
+
+        public override int CurrentItem
+        {
+            get => base.CurrentItem; 
+            set
+            {
+                Log.Debug("22",$"CurrentItem变化了 old:{base.CurrentItem},new:{value}");
+                base.CurrentItem = value;
+            }
+
         }
     }
 }

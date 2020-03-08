@@ -9,7 +9,7 @@ using Xamarin.Forms;
 
 namespace TestApp.Test2
 {
-    public class TabLayout : Layout<View>, ITabElement
+    public class TabLayout : Layout<View>
     {
         List<View> sourceViews = null;
 
