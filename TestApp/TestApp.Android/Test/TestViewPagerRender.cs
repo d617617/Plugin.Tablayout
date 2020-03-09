@@ -118,6 +118,7 @@ namespace TestApp.Droid.Test
 
 
 
+        int cacheIndex = 0;
         void ViewPager_ScrollChange(object sender, ScrollChangeEventArgs e)
         {
 
@@ -129,6 +130,7 @@ namespace TestApp.Droid.Test
                 StartIndex = XFPagerIndex,
                 NowIndex = nowScrollX / pageWidth
             };
+
             var viewPagerItem = _viewPager.CurrentItem;
             var targetIndex = XFPagerIndex;
             if (Math.Abs(viewPagerItem - XFPagerIndex) > 1)
@@ -150,7 +152,49 @@ namespace TestApp.Droid.Test
             var diffX = Math.Abs(targetIndex * pageWidth - nowPageScrollX);
             var moveX = Math.Abs(e.ScrollX - nowPageScrollX);
             scrollEvent.Rate = moveX / (double)diffX;
+
+
+            var nowIndex = e.ScrollX / pageWidth;//当前的真实索引
+            scrollEvent.NowIndex = cacheIndex;
+            if (e.ScrollX>cacheIndex*pageWidth)
+            {              
+                scrollEvent.OffsetDirection = 1;
+                scrollEvent.OffsetRate = (e.ScrollX - cacheIndex * pageWidth) / (double)pageWidth;
+            }
+            else if (e.ScrollX==cacheIndex*pageWidth)
+            {
+                scrollEvent.OffsetDirection = 0;
+                scrollEvent.OffsetRate = 1;
+            }
+            else
+            {
+                scrollEvent.OffsetDirection = -1;
+                scrollEvent.OffsetRate = Math.Abs(e.ScrollX - cacheIndex * pageWidth) / (double)pageWidth;
+            }
+            //var offset = e.ScrollX - nowIndex * pageWidth;
+            //if (offset == 0)
+            //{
+            //    scrollEvent.OffsetRate = 1;
+            //    scrollEvent.OffsetDirection = 0;
+            //}
+            //else
+            //{
+            //    if (offset < 0)
+            //    {
+            //        scrollEvent.OffsetDirection = -1;
+            //    }
+            //    else
+            //    {
+            //        scrollEvent.OffsetDirection = 1;
+            //    }
+            //    scrollEvent.OffsetRate = Math.Abs(offset) / (double)pageWidth;
+            //}
+            
             _xFViewPager.PagerScrollEventDone(scrollEvent);
+            if (e.ScrollX % pageWidth == 0)
+            {
+                cacheIndex = nowIndex;
+            }
         }
 
 
@@ -164,10 +208,10 @@ namespace TestApp.Droid.Test
 
         public override int CurrentItem
         {
-            get => base.CurrentItem; 
+            get => base.CurrentItem;
             set
             {
-                Log.Debug("22",$"CurrentItem变化了 old:{base.CurrentItem},new:{value}");
+                Log.Debug("22", $"CurrentItem变化了 old:{base.CurrentItem},new:{value}");
                 base.CurrentItem = value;
             }
 

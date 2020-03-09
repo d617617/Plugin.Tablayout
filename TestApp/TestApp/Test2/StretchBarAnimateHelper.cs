@@ -11,18 +11,30 @@ namespace TestApp.Test2
     {
 
 
+        double cache = 0;
         protected override void ViewPagerMove(object arg1, PagerScrollEventArgs scrollArg)
         {
-            if (Math.Abs(scrollArg.TargetIndex - scrollArg.StartIndex) > 1)
-            {
-                
-            }
+            //if (Math.Abs(scrollArg.TargetIndex - scrollArg.StartIndex) > 1)
+            //{
 
-            bool isRight = GetDirection(scrollArg);
-            var start = GetRealWidthAndBarX(scrollArg.StartIndex);
-            var target = GetRealWidthAndBarX(scrollArg.TargetIndex);
+            //}
+
+
+
+            //bool isRight = GetDirection(scrollArg);
+            if (scrollArg.OffsetRate == 1&&scrollArg.OffsetDirection==0)
+            {
+                LayoutBar(scrollArg.NowIndex);
+                return;
+            }
+            var isRight = scrollArg.OffsetDirection < 0 ? false : true;
+            scrollArg.Rate = scrollArg.OffsetRate;
+            var start = GetRealWidthAndBarX(scrollArg.NowIndex);
+            var target = GetRealWidthAndBarX(isRight?scrollArg.NowIndex+1:scrollArg.NowIndex-1);
             var rect = isRight ? ToRight(start, target, scrollArg) : ToLeft(start,target,scrollArg);
             LayoutBar(rect);
+
+            cache = scrollArg.OffsetRate;
         }
 
         bool GetDirection(PagerScrollEventArgs scrollArg)

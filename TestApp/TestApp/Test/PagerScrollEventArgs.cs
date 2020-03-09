@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TestApp.Test
 {
-    public class PagerScrollEventArgs:EventArgs
+    public class PagerScrollEventArgs : EventArgs
     {
         /// <summary>
         /// 比例
@@ -22,5 +22,9 @@ namespace TestApp.Test
         /// 目标Index
         /// </summary>
         public int TargetIndex { get; set; }
+
+        public int OffsetDirection { get; set; }
+
+        public double OffsetRate { get; set; }
     }
 }
