@@ -102,6 +102,10 @@ namespace TestApp.Droid.Test
         private void _viewPager_PageScrollStateChanged(object sender, ViewPager.PageScrollStateChangedEventArgs e)
         {
             _pointState = e.State;
+            if (_pointState==0)
+            {
+                _xFViewPager.SetPageIndexByRender(_viewPager.CurrentItem);
+            }
         }
 
         private void _viewPager_PageSelected(object sender, ViewPager.PageSelectedEventArgs e)
@@ -141,8 +145,8 @@ namespace TestApp.Droid.Test
             {
                 double rate = e.PositionOffset;
                 if (currItem == nowIndex) //当前索引
-                {
-                    if (_scrollDire) //向右
+                {                  
+                    if (_xFViewPager.PageIndex==currItem)
                     {
                         direction = 1;
                     }
@@ -201,10 +205,7 @@ namespace TestApp.Droid.Test
             #endregion
 
             _xFViewPager.PagerScrollEventDone(scrollEvent);
-            if (_pointState==2&&e.PositionOffset==0)
-            {
-                _xFViewPager.SetPageIndexByRender(currItem);
-            }
+            
             Log.Debug("22", $"手指状态{_pointState},方向{scrollEvent.OffsetDirection} 当前Item{scrollEvent.NowIndex},NextPosition{scrollEvent.NextPosition},rate{scrollEvent.OffsetRate}");           
         }
 
