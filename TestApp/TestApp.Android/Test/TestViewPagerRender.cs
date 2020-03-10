@@ -142,8 +142,7 @@ namespace TestApp.Droid.Test
 
             }
             else if (_pointState == 2) //手指抬起的状态
-            {
-                double rate = e.PositionOffset;
+            {           
                 if (currItem == nowIndex) //当前索引
                 {                  
                     if (_xFViewPager.PageIndex==currItem)
