@@ -22,7 +22,7 @@
                              TabType="Center"
                              test2:TabLayout.ItemsSourceBy="testPager">
                 <test2:TabLayout.AnimateHelper>
-                    <test2:StretchBarAnimateHelper BarHeight="5" BorderRadius="15" WidthScale="1">
+                    <test2:StretchBarAnimateHelper BarHeight="5" BorderRadius="15" WidthScale=".5">
                     </test2:StretchBarAnimateHelper>
                 </test2:TabLayout.AnimateHelper>
                 <test2:TabLayout.ItemTemplate>

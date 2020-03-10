@@ -25,9 +25,10 @@ namespace TestApp.Droid.Test
         TestViewPager _xFViewPager = null;
 
         int XFPagerIndex => _xFViewPager.PageIndex;
-
-
         bool isFirst;
+        int _nowScrollX;
+        bool _scrollDire;
+
         public TestViewPagerRender(Context context)
             : base(context)
         {
@@ -48,7 +49,7 @@ namespace TestApp.Droid.Test
             {
                 if (Control == null)
                 {
-                    _viewPager = new PageSelectedExt(Context);
+                    _viewPager = new ViewPager(Context);
                     SetNativeControl(_viewPager);
                 }
             }
@@ -92,129 +93,132 @@ namespace TestApp.Droid.Test
                 _viewPager.ScrollChange += ViewPager_ScrollChange;
                 _viewPager.PageScrolled += ViewPager_PageScrolled;
                 _viewPager.PageSelected += _viewPager_PageSelected;
+                _viewPager.PageScrollStateChanged += _viewPager_PageScrollStateChanged;
                 isFirst = true;
             }
         }
 
+        int _pointState = -1;
+        private void _viewPager_PageScrollStateChanged(object sender, ViewPager.PageScrollStateChangedEventArgs e)
+        {
+            _pointState = e.State;
+        }
+
         private void _viewPager_PageSelected(object sender, ViewPager.PageSelectedEventArgs e)
         {
-            Log.Debug("22", $"PageSelected：{_viewPager.CurrentItem},xf中的索引为：{_xFViewPager.PageIndex}");
+            //Log.Debug("22", $"PageSelected：{_viewPager.CurrentItem},xf中的索引为：{_xFViewPager.PageIndex}");
         }
 
+        
         void ViewPager_PageScrolled(object sender, ViewPager.PageScrolledEventArgs e)
         {
-            if (e.PositionOffset == 0)
-            {
-                Log.Debug("22", $"事件前currentItem：{_viewPager.CurrentItem},xf中的索引为：{_xFViewPager.PageIndex}");
-                _xFViewPager.SetPageIndexByRender(e.Position);
-                Log.Debug("22", $"事件后currentItem：{_viewPager.CurrentItem},xf中的索引为：{_xFViewPager.PageIndex}");
-                _xFViewPager.PageIndexChangedDone();
-                if (e.Position == _viewPager.CurrentItem)
-                {
-                    _xFViewPager.PageScrollStoppedDone();
-                }
-            }
-        }
-
-
-
-        int cacheIndex = 0;
-        void ViewPager_ScrollChange(object sender, ScrollChangeEventArgs e)
-        {
-
-            var pageWidth = this.Width;
-            var nowScrollX = e.ScrollX;
-            var nowPageScrollX = pageWidth * XFPagerIndex;
             PagerScrollEventArgs scrollEvent = new PagerScrollEventArgs()
             {
                 StartIndex = XFPagerIndex,
-                NowIndex = nowScrollX / pageWidth
+                NowIndex = e.Position
             };
-
-            var viewPagerItem = _viewPager.CurrentItem;
-            var targetIndex = XFPagerIndex;
-            if (Math.Abs(viewPagerItem - XFPagerIndex) > 1)
+            var pageWidth = Width;
+            var currItem = _viewPager.CurrentItem;
+            var nowIndex = _nowScrollX / pageWidth;
+            var direction = 1;
+            if (_pointState == 1) //手指按下的状态
             {
-                targetIndex = viewPagerItem;
-            }
-            else
-            {
-                if (nowScrollX >= nowPageScrollX)
+                if (currItem == nowIndex)
                 {
-                    targetIndex = XFPagerIndex + 1;
+                    direction = 1;
+                }
+                else if (currItem == (nowIndex + 1))
+                {
+                    direction = -1;
+                }
+                else //临界情况
+                {
+                    direction = 0;
+                }
+
+            }
+            else if (_pointState == 2) //手指抬起的状态
+            {
+                double rate = e.PositionOffset;
+                if (currItem == nowIndex) //当前索引
+                {
+                    if (_scrollDire) //向右
+                    {
+                        direction = 1;
+                    }
+                    else
+                    {
+                        direction = -1;
+                    }
+                }
+                else if (currItem == nowIndex + 1)
+                {
+                    if (_scrollDire)
+                    {
+                        direction = 1;
+                    }
+                    else
+                    {
+                        direction = -1;
+                    }
                 }
                 else
                 {
-                    targetIndex = XFPagerIndex - 1;
+                    if (currItem < nowIndex) //向左
+                    {
+                        direction = -1;
+                    }
+                    else if (currItem > nowIndex + 1)
+                    {
+                        direction = 1;
+                    }
                 }
-            }
-            scrollEvent.TargetIndex = targetIndex;
-            var diffX = Math.Abs(targetIndex * pageWidth - nowPageScrollX);
-            var moveX = Math.Abs(e.ScrollX - nowPageScrollX);
-            scrollEvent.Rate = moveX / (double)diffX;
 
 
-            var nowIndex = e.ScrollX / pageWidth;//当前的真实索引
-            scrollEvent.NowIndex = cacheIndex;
-            if (e.ScrollX>cacheIndex*pageWidth)
-            {              
-                scrollEvent.OffsetDirection = 1;
-                scrollEvent.OffsetRate = (e.ScrollX - cacheIndex * pageWidth) / (double)pageWidth;
             }
-            else if (e.ScrollX==cacheIndex*pageWidth)
+
+            #region 赋值
+            if (direction == 1)
             {
-                scrollEvent.OffsetDirection = 0;
-                scrollEvent.OffsetRate = 1;
+                scrollEvent.NowIndex = nowIndex;
+                scrollEvent.NextPosition = nowIndex + 1;
+                scrollEvent.OffsetDirection = 1;
+                scrollEvent.OffsetRate = (_nowScrollX - nowIndex * pageWidth) / (double)pageWidth;
+            }
+            else if (direction == -1)
+            {
+                scrollEvent.NextPosition = nowIndex;
+                scrollEvent.NowIndex = nowIndex + 1;
+                scrollEvent.OffsetRate = Math.Abs(_nowScrollX - scrollEvent.NowIndex * pageWidth) / (double)pageWidth;
+                scrollEvent.OffsetDirection = -1;
             }
             else
             {
-                scrollEvent.OffsetDirection = -1;
-                scrollEvent.OffsetRate = Math.Abs(e.ScrollX - cacheIndex * pageWidth) / (double)pageWidth;
+                scrollEvent.NowIndex = nowIndex;
+                scrollEvent.OffsetRate = 0;
+                scrollEvent.OffsetDirection = 0;
             }
-            //var offset = e.ScrollX - nowIndex * pageWidth;
-            //if (offset == 0)
-            //{
-            //    scrollEvent.OffsetRate = 1;
-            //    scrollEvent.OffsetDirection = 0;
-            //}
-            //else
-            //{
-            //    if (offset < 0)
-            //    {
-            //        scrollEvent.OffsetDirection = -1;
-            //    }
-            //    else
-            //    {
-            //        scrollEvent.OffsetDirection = 1;
-            //    }
-            //    scrollEvent.OffsetRate = Math.Abs(offset) / (double)pageWidth;
-            //}
-            
+            #endregion
+
             _xFViewPager.PagerScrollEventDone(scrollEvent);
-            if (e.ScrollX % pageWidth == 0)
+            if (_pointState==2&&e.PositionOffset==0)
             {
-                cacheIndex = nowIndex;
+                _xFViewPager.SetPageIndexByRender(currItem);
             }
+            Log.Debug("22", $"手指状态{_pointState},方向{scrollEvent.OffsetDirection} 当前Item{scrollEvent.NowIndex},NextPosition{scrollEvent.NextPosition},rate{scrollEvent.OffsetRate}");           
+        }
+
+
+
+       
+      
+        void ViewPager_ScrollChange(object sender, ScrollChangeEventArgs e)
+        {
+            _nowScrollX = e.ScrollX;
+            _scrollDire = e.ScrollX > e.OldScrollX;            
         }
 
 
     }
-
-    public class PageSelectedExt : ViewPager
-    {
-        public PageSelectedExt(Context context) : base(context)
-        {
-        }
-
-        public override int CurrentItem
-        {
-            get => base.CurrentItem;
-            set
-            {
-                Log.Debug("22", $"CurrentItem变化了 old:{base.CurrentItem},new:{value}");
-                base.CurrentItem = value;
-            }
-
-        }
-    }
+  
 }
