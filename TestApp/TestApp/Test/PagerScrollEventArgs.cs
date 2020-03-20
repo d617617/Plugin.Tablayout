@@ -23,9 +23,7 @@ namespace TestApp.Test
         /// </summary>
         public int TargetIndex { get; set; }
 
-        public int OffsetDirection { get; set; }
-
-        public double OffsetRate { get; set; }
+        public int OffsetDirection { get; set; }    
 
         public int NextPosition { get; set; }
     }

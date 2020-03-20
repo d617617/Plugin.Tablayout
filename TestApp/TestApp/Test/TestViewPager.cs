@@ -16,19 +16,14 @@ namespace TestApp.Test
 
 
         #endregion
-       
 
-   
+        public double ScrollX { get; private set; }
 
-        public Action<object, EventArgs> PageScrollStopped;
         public event Action<object, EventArgs> PageIndexChanged;
         public event Action<object, PagerScrollEventArgs> PagerScroll;
 
         #region 由渲染器调用
-        public void PageScrollStoppedDone()
-        {
-            PageScrollStopped?.Invoke(this, null);
-        }
+        
         public void PageIndexChangedDone()
         {
             PageIndexChanged?.Invoke(this, null);

@@ -27,12 +27,13 @@ namespace TestApp.Droid.Test
         int XFPagerIndex => _xFViewPager.PageIndex;
         bool isFirst;
         int _nowScrollX;
-        bool _scrollDire;
+        bool _scrollRightDire;
+        int _pointState = -1;
 
         public TestViewPagerRender(Context context)
             : base(context)
         {
-            SetWillNotDraw(false);
+         
         }
 
 
@@ -91,93 +92,89 @@ namespace TestApp.Droid.Test
             if (!isFirst)
             {
                 _viewPager.ScrollChange += ViewPager_ScrollChange;
-                _viewPager.PageScrolled += ViewPager_PageScrolled;
-                _viewPager.PageSelected += _viewPager_PageSelected;
-                _viewPager.PageScrollStateChanged += _viewPager_PageScrollStateChanged;
+                _viewPager.PageScrolled += ViewPager_PageScrolled;          
+                _viewPager.PageScrollStateChanged += ViewPager_PageScrollStateChanged;
                 isFirst = true;
             }
         }
 
-        int _pointState = -1;
-        private void _viewPager_PageScrollStateChanged(object sender, ViewPager.PageScrollStateChangedEventArgs e)
+        
+        void ViewPager_PageScrollStateChanged(object sender, ViewPager.PageScrollStateChangedEventArgs e)
         {
             _pointState = e.State;
-            if (_pointState==0)
+            if (_pointState == 0)
             {
                 _xFViewPager.SetPageIndexByRender(_viewPager.CurrentItem);
             }
         }
 
-        private void _viewPager_PageSelected(object sender, ViewPager.PageSelectedEventArgs e)
-        {
-            //Log.Debug("22", $"PageSelected：{_viewPager.CurrentItem},xf中的索引为：{_xFViewPager.PageIndex}");
-        }
+     
 
-        
         void ViewPager_PageScrolled(object sender, ViewPager.PageScrolledEventArgs e)
         {
+            var direction = 1;
+            var currItem = _viewPager.CurrentItem;
             PagerScrollEventArgs scrollEvent = new PagerScrollEventArgs()
             {
                 StartIndex = XFPagerIndex,
                 NowIndex = e.Position
             };
             var pageWidth = Width;
-            var currItem = _viewPager.CurrentItem;
+
             var nowIndex = _nowScrollX / pageWidth;
-            var direction = 1;
-            if (_pointState == 1) //手指按下的状态
+            if (e.PositionOffset==0) //
             {
-                if (currItem == nowIndex)
+                direction = 0;
+                if (_pointState==2)
                 {
-                    direction = 1;
+                    scrollEvent.TargetIndex = currItem;
                 }
-                else if (currItem == (nowIndex + 1))
+                else if (_pointState==1)
                 {
-                    direction = -1;
+                    scrollEvent.TargetIndex = nowIndex;
                 }
-                else //临界情况
-                {
-                    direction = 0;
-                }
-
             }
-            else if (_pointState == 2) //手指抬起的状态
-            {           
-                if (currItem == nowIndex) //当前索引
-                {                  
-                    if (_xFViewPager.PageIndex==currItem)
+            else
+            {
+                if (_pointState == 1) //手指按下的状态
+                {
+                    if (currItem == nowIndex)
                     {
                         direction = 1;
+                        scrollEvent.TargetIndex = nowIndex + 1;
                     }
+                    else if (currItem == (nowIndex + 1))
+                    {
+                        direction = -1;
+                        scrollEvent.TargetIndex = nowIndex ;
+                    }                    
+                }
+                else if (_pointState == 2) //手指抬起的状态
+                {
+                    scrollEvent.TargetIndex = currItem;
+                    if (currItem == nowIndex||currItem==(nowIndex+1)) 
+                    {
+                        if (_scrollRightDire) //向右
+                        {
+                            direction = 1;
+                        }
+                        else
+                        {
+                            direction = -1;
+                        }
+                    }                   
                     else
                     {
-                        direction = -1;
+                        if (currItem < nowIndex) //向左
+                        {
+                            direction = -1;
+                        }
+                        else if (currItem > nowIndex + 1)
+                        {
+                            direction = 1;
+                        }
                     }
                 }
-                else if (currItem == nowIndex + 1)
-                {
-                    if (_scrollDire)
-                    {
-                        direction = 1;
-                    }
-                    else
-                    {
-                        direction = -1;
-                    }
-                }
-                else
-                {
-                    if (currItem < nowIndex) //向左
-                    {
-                        direction = -1;
-                    }
-                    else if (currItem > nowIndex + 1)
-                    {
-                        direction = 1;
-                    }
-                }
-
-
             }
 
             #region 赋值
@@ -186,39 +183,38 @@ namespace TestApp.Droid.Test
                 scrollEvent.NowIndex = nowIndex;
                 scrollEvent.NextPosition = nowIndex + 1;
                 scrollEvent.OffsetDirection = 1;
-                scrollEvent.OffsetRate = (_nowScrollX - nowIndex * pageWidth) / (double)pageWidth;
+                scrollEvent.Rate = (_nowScrollX - nowIndex * pageWidth) / (double)pageWidth;
             }
             else if (direction == -1)
             {
                 scrollEvent.NextPosition = nowIndex;
                 scrollEvent.NowIndex = nowIndex + 1;
-                scrollEvent.OffsetRate = Math.Abs(_nowScrollX - scrollEvent.NowIndex * pageWidth) / (double)pageWidth;
+                scrollEvent.Rate = Math.Abs(_nowScrollX - scrollEvent.NowIndex * pageWidth) / (double)pageWidth;
                 scrollEvent.OffsetDirection = -1;
             }
-            else
+            else if (direction == 0)
             {
                 scrollEvent.NowIndex = nowIndex;
-                scrollEvent.OffsetRate = 0;
+                scrollEvent.Rate = 1;
                 scrollEvent.OffsetDirection = 0;
             }
+
             #endregion
 
             _xFViewPager.PagerScrollEventDone(scrollEvent);
-            
-            Log.Debug("22", $"手指状态{_pointState},方向{scrollEvent.OffsetDirection} 当前Item{scrollEvent.NowIndex},NextPosition{scrollEvent.NextPosition},rate{scrollEvent.OffsetRate}");           
+
+            Log.Debug("22", $"手指状态{_pointState},方向{scrollEvent.OffsetDirection} 当前Item{scrollEvent.NowIndex},NextPosition{scrollEvent.NextPosition},rate{scrollEvent.Rate}");
         }
 
 
 
-       
-      
         void ViewPager_ScrollChange(object sender, ScrollChangeEventArgs e)
         {
             _nowScrollX = e.ScrollX;
-            _scrollDire = e.ScrollX > e.OldScrollX;            
+            _scrollRightDire = e.ScrollX > e.OldScrollX;
         }
 
 
     }
-  
+
 }

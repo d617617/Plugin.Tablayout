@@ -10,23 +10,20 @@ namespace TestApp.Test2
     public class StretchBarAnimateHelper : BarAnimateHelper
     {
 
-
-        double cache = 0;
+        
         protected override void ViewPagerMove(object arg1, PagerScrollEventArgs scrollArg)
-        {   
-            if (scrollArg.OffsetRate==0)
+        {
+            if (scrollArg.OffsetDirection==0)
             {
                 LayoutBar(scrollArg.NowIndex);
                 return;
             }
-            var isRight = scrollArg.OffsetDirection==1;
-            scrollArg.Rate = scrollArg.OffsetRate;
+            var isRight = scrollArg.OffsetDirection==1;        
             var start = GetRealWidthAndBarX(scrollArg.NowIndex);
             var target = GetRealWidthAndBarX(scrollArg.NextPosition);
             var rect = isRight ? ToRight(start, target, scrollArg) : ToLeft(start,target,scrollArg);
             LayoutBar(rect);
-            
-            cache = scrollArg.OffsetRate;
+                        
         }
 
         bool GetDirection(PagerScrollEventArgs scrollArg)
