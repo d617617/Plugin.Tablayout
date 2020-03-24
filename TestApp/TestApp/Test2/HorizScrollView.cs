@@ -12,12 +12,14 @@ namespace TestApp.Test2
             Orientation = ScrollOrientation.Horizontal;
         }
 
+
+
         /// <summary>
         /// 滚动至指定位置，默认为中间
         /// </summary>
         /// <param name="index">指定索引</param>
         /// <param name="offset">偏移</param>
-        public void ScrollToIndex(int index,double offset) 
+        public void ScrollToIndex(int index,double offset=0) 
         {
             
         }

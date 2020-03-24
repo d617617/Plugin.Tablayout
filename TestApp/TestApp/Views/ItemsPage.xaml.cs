@@ -46,7 +46,8 @@ namespace TestApp.Views
         private void Button_Clicked(object sender, EventArgs e)
         {
             Random r = new Random();
-            this.testPager.SetPageIndex(3, true);
+            this.myList2.TabType = Test2.TabType.Grid;
+            //this.testPager.SetPageIndex(3, true);
             //myList.Test();
         }
 

@@ -57,7 +57,11 @@ namespace TestApp.Test2
         #region TabType
         public static readonly BindableProperty TabTypeProperty = BindableProperty.Create(
             nameof(TabType), typeof(TabType), typeof(TabLayout),
-            TabType.Grid
+            TabType.Grid,
+            propertyChanged: (obj, o, n) => 
+            {
+                ((TabLayout)(obj)).InvalidateLayout();
+            }
             );
         public TabType TabType
         {
@@ -223,8 +227,8 @@ namespace TestApp.Test2
         }
 
         void CenterLayout(double x, double y, double width, double height)
-        {
-            double widthAll = this.Space * (this.sourceViews.Count - 1);
+        {           
+            double widthAll = Space * (this.sourceViews.Count - 1);
             Dictionary<View, Size> itemSizes = new Dictionary<View, Size>();
             foreach (var item in sourceViews)
             {
