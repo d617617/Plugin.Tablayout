@@ -63,21 +63,30 @@ namespace TestApp.Test2
 
         protected virtual void ViewPagerMove(object arg1, PagerScrollEventArgs scrollArg)
         {
-            var targetBarTuple = GetRealWidthAndBarX(scrollArg.TargetIndex);//目标索引item的width和X
-            var startBarTuple = GetRealWidthAndBarX(scrollArg.StartIndex);//初始索引item的width和X
-            var totalX = Math.Abs(targetBarTuple.Item2 - startBarTuple.Item2);
-            var changeX = totalX * scrollArg.Rate;
-            var noxX = startBarTuple.Item2;
-            if (scrollArg.TargetIndex > scrollArg.StartIndex) //右移
+            if (scrollArg.OffsetDirection == 0)
             {
-                noxX += changeX;
+                LayoutBar(scrollArg.NowIndex);               
             }
             else
             {
-                noxX -= changeX;
+                var targetBarTuple = GetRealWidthAndBarX(scrollArg.NextPosition);//目标索引item的width和X
+                var startBarTuple = GetRealWidthAndBarX(scrollArg.NowIndex);//初始索引item的width和X
+                var totalX = Math.Abs(targetBarTuple.Item2 - startBarTuple.Item2);
+                var changeX = totalX * scrollArg.Rate;
+                var noxX = startBarTuple.Item2;
+                if (scrollArg.OffsetDirection==1) //右移
+                {
+                    noxX += changeX;
+                }
+                else
+                {
+                    noxX -= changeX;
+                }
+                var nowWidth = (targetBarTuple.Item1 - startBarTuple.Item1) * scrollArg.Rate + startBarTuple.Item1;
+                LayoutBar(new Rectangle(noxX, bar.Y, nowWidth, BarHeight));
             }
-            var nowWidth = (targetBarTuple.Item1 - startBarTuple.Item1) * scrollArg.Rate + startBarTuple.Item1;
-            LayoutBar(new Rectangle(noxX, bar.Y, nowWidth, BarHeight));
+         
+          
         }
         protected void ViewPager_PageIndexChanged(object arg1, EventArgs arg2)
         {
@@ -86,8 +95,7 @@ namespace TestApp.Test2
 
         public void SetViewPagerAnimate(TestViewPager viewPager)
         {
-            viewPager.PagerScroll += ViewPagerMove;
-            //viewPager.PageIndexChanged += ViewPager_PageIndexChanged;
+            viewPager.PagerScroll += ViewPagerMove;         
         }
 
 

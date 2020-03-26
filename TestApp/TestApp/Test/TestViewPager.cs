@@ -17,6 +17,22 @@ namespace TestApp.Test
 
         #endregion
 
+        #region PageCacheCount
+        public static readonly BindableProperty PageCacheCountProperty =
+     BindableProperty.Create(nameof(PageCacheCount), typeof(int), typeof(TestViewPager),
+         1, propertyChanged: (obj, o, n) => ((TestViewPager)obj).PageCacheCountChanged((int)n));
+
+        public int PageCacheCount
+        {
+            get => (int)GetValue(PageCacheCountProperty);
+            set => SetValue(PageCacheCountProperty, value);
+        }
+
+        void PageCacheCountChanged(int newVal) 
+        {
+        
+        }
+        #endregion
         public double ScrollX { get; private set; }
 
         public event Action<object, EventArgs> PageIndexChanged;

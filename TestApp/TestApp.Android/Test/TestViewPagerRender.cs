@@ -82,6 +82,7 @@ namespace TestApp.Droid.Test
             {
                 var fm = Context.GetFragmentManager();
                 ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(fm, _xFViewPager.Children);
+                _viewPager.OffscreenPageLimit = _xFViewPager.PageCacheCount;
                 _viewPager.Adapter = pagerAdapter;
             }
         }

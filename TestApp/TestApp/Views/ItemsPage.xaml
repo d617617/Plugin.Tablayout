@@ -22,8 +22,8 @@
                              TabType="Center"
                              test2:TabLayout.ItemsSourceBy="testPager">
                 <test2:TabLayout.AnimateHelper>
-                    <test2:StretchBarAnimateHelper BarHeight="5" BorderRadius="15" WidthScale=".5">
-                    </test2:StretchBarAnimateHelper>
+                    <test2:BarAnimateHelper BarHeight="5" BorderRadius="15" WidthScale=".5">
+                    </test2:BarAnimateHelper>
                 </test2:TabLayout.AnimateHelper>
                 <test2:TabLayout.ItemTemplate>
                     <DataTemplate>
@@ -37,7 +37,7 @@
 
       
         <test:TestViewPager  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"                      
-                             x:Name="testPager" >
+                             x:Name="testPager" PageCacheCount="3" >
             <views:TestView Title2="第一页"></views:TestView>
             <views:TestView Title2="第二页"></views:TestView>
             <views:TestView Title2="第三页"></views:TestView>
