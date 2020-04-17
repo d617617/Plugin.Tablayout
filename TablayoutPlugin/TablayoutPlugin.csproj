@@ -32,8 +32,8 @@
     <!--TODO: Fill these in-->
     <PackageLicenseUrl>LINK TO LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>LINK TO PROJECT</PackageProjectUrl>
-    <RepositoryUrl>LINK TO PROJECT</RepositoryUrl>
-    <PackageReleaseNotes>xamarin forms's viewpages and tabs </PackageReleaseNotes>
+    <RepositoryUrl>https://www.nuget.org/</RepositoryUrl>
+    <PackageReleaseNotes>xamarin forms's viewpages and tabs oy2eq4tgop4koxyzkxia6jaulwfi47pufc6m57z74vusta</PackageReleaseNotes>
     <PackageIconUrl>ICON URL</PackageIconUrl>
     <PackageTags>xamarin, windows, ios, android, xamarin.forms, plugin, TablayoutPlugin</PackageTags>
     
