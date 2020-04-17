@@ -14,10 +14,10 @@
     <PackageId>Plugin.TablayoutPlugin</PackageId>
     
     <Product>$(AssemblyName) ($(TargetFramework))</Product>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <AssemblyVersion>1.0.1.0</AssemblyVersion>
     <AssemblyFileVersion>1.0.0.0</AssemblyFileVersion>
-    <Version>1.0.0.0</Version>
-    <PackageVersion>1.0.0.0</PackageVersion>
+    <Version>1.1.1.0</Version>
+    <PackageVersion>1.0.1.0</PackageVersion>
     <PackOnBuild>true</PackOnBuild>
     <NeutralLanguage>en</NeutralLanguage>
     <LangVersion>default</LangVersion>
@@ -31,20 +31,24 @@
     
     <!--TODO: Fill these in-->
     <PackageLicenseUrl>LINK TO LICENSE</PackageLicenseUrl>
-    <PackageProjectUrl>LINK TO PROJECT</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/d617617/Plugin.Tablayout</PackageProjectUrl>
     <RepositoryUrl>https://www.nuget.org/</RepositoryUrl>
-    <PackageReleaseNotes>xamarin forms's viewpages and tabs oy2eq4tgop4koxyzkxia6jaulwfi47pufc6m57z74vusta</PackageReleaseNotes>
+    <PackageReleaseNotes>xamarin forms's viewpages and tabs</PackageReleaseNotes>
     <PackageIconUrl>ICON URL</PackageIconUrl>
     <PackageTags>xamarin, windows, ios, android, xamarin.forms, plugin, TablayoutPlugin</PackageTags>
     
     <Title>TablayoutPlugin Plugin for Xamarin and Windows</Title>
     <Summary>Summary of nuget</Summary>
-    <Description>Plugin Description</Description>
+    <Description>this plug for xamarin form viewpages</Description>
     
     
     <Owners>Liwuyang</Owners>
     <Authors>Liwuyang</Authors>
     <Copyright>Copyright 2018</Copyright>
+    <UserSecretsId>1e6ae5d7-c748-4ab8-b079-a27ca9fae10d</UserSecretsId>
+    <FileVersion>1.0.1.0</FileVersion>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)'=='Debug' ">
