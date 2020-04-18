@@ -29,7 +29,21 @@ namespace TestApp.Droid.Test
             return view;
         }
 
-        public View ConvertXFPageToNative(Xamarin.Forms.View page, Context context)
+        public View ConvertXFPageToNative(Xamarin.Forms.View contentView, Context context)
+        {
+            var vRenderer = contentView.GetRenderer();
+            if (vRenderer == null)
+            {
+                Platform.SetRenderer(contentView, Platform.CreateRendererWithContext(contentView, context));
+                vRenderer = contentView.GetRenderer();
+            }
+            var nativeView = vRenderer.View;
+            nativeView.RemoveFromParent();
+            vRenderer.Tracker.UpdateLayout();
+            return nativeView;
+        }
+
+        public View ConvertXFPageToNative(Xamarin.Forms.Page page, Context context)
         {
             var vRenderer = page.GetRenderer();
             if (vRenderer == null)

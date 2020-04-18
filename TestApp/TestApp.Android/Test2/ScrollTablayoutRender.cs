@@ -18,19 +18,19 @@ using TestApp.Test2;
 using Xamarin.Forms.Platform.Android;
 
 
-[assembly: Xamarin.Forms.ExportRenderer(typeof(HorizScrollView), typeof(TestApp.Droid.Test2.MyScrollViewRender))]
+[assembly: Xamarin.Forms.ExportRenderer(typeof(ScrollWrapper), typeof(TestApp.Droid.Test2.ScrollTablayoutRender))]
 namespace TestApp.Droid.Test2
 {
-    public class MyScrollViewRender :ScrollViewRenderer, INestedScrollingChild
+    public class ScrollTablayoutRender : ScrollViewRenderer, INestedScrollingChild
     {
         private View inner;
         private float y;
         private Rect normal = new Rect();
 
 
-        public MyScrollViewRender(Context context) : base(context)
+        public ScrollTablayoutRender(Context context) : base(context)
         {
-         
+
         }
 
         HorizontalScrollView _scrollView;
@@ -40,7 +40,7 @@ namespace TestApp.Droid.Test2
             base.OnElementChanged(e);
             if (e.NewElement == null) return;
 
-           
+
 
             e.NewElement.PropertyChanged += ElementPropertyChanged;
         }
@@ -51,11 +51,10 @@ namespace TestApp.Droid.Test2
             {
                 _scrollView = (HorizontalScrollView)typeof(ScrollViewRenderer)
                     .GetField("_hScrollView", BindingFlags.NonPublic | BindingFlags.Instance)
-                    .GetValue(this);
-                _scrollView.HorizontalScrollBarEnabled = true;
+                    .GetValue(this);                
                 _scrollView.HorizontalScrollBarEnabled = false;
             }
-            
+
         }
 
 

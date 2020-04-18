@@ -43,7 +43,12 @@ namespace TestApp.Droid.Test
             base.OnElementChanged(e);
             if (e.OldElement != null)
             {
-                // Unsubscribe from event handlers and cleanup any resources
+                if (_viewPager!=null)
+                {
+                    _viewPager.ScrollChange -= ViewPager_ScrollChange;
+                    _viewPager.PageScrolled -= ViewPager_PageScrolled;
+                    _viewPager.PageScrollStateChanged -= ViewPager_PageScrollStateChanged;
+                }             
             }
 
             if (e.NewElement != null)
@@ -206,8 +211,6 @@ namespace TestApp.Droid.Test
 
             Log.Debug("22", $"手指状态{_pointState},方向{scrollEvent.OffsetDirection} 当前Item{scrollEvent.NowIndex},NextPosition{scrollEvent.NextPosition},rate{scrollEvent.Rate}");
         }
-
-
 
         void ViewPager_ScrollChange(object sender, ScrollChangeEventArgs e)
         {

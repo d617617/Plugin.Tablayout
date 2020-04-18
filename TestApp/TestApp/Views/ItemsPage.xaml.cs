@@ -27,7 +27,7 @@ namespace TestApp.Views
 
             BindingContext = viewModel = new ItemsViewModel();
             List<string> datas = new List<string>();
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 10; i++)
             {
                 var random = new Random();
                 var count=random.Next(0,5);
@@ -46,9 +46,10 @@ namespace TestApp.Views
         private void Button_Clicked(object sender, EventArgs e)
         {
             Random r = new Random();
-            this.myList2.TabType = Test2.TabType.Grid;
-            //this.testPager.SetPageIndex(3, true);
-            //myList.Test();
+            //this.myList2.TabType = Test2.TabType.Grid;
+            ////this.testPager.SetPageIndex(3, true);
+            ////myList.Test();
+            this.wrapper.ScrollToIndex(8);
         }
 
         private void TapGestureRecognizer_Tapped(object sender, EventArgs e)

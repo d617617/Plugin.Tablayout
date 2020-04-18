@@ -18,21 +18,24 @@
         <Label  x:Name="testLbl"></Label>
 
         <test2:NestContentView  >
-            <test2:TabLayout Space="15" x:Name="myList2" Padding="0,10"
-                             TabType="Center"
+            <test2:ScrollWrapper x:Name="wrapper">
+                <test2:TabLayout Space="15" x:Name="myList2" Padding="0,10"
+                             TabType="LinearLayout"
                              test2:TabLayout.ItemsSourceBy="testPager">
-                <test2:TabLayout.AnimateHelper>
-                    <test2:BarAnimateHelper BarHeight="5" BorderRadius="15" WidthScale=".5">
-                    </test2:BarAnimateHelper>
-                </test2:TabLayout.AnimateHelper>
-                <test2:TabLayout.ItemTemplate>
-                    <DataTemplate>
-                        <ContentView >
-                            <Label Text="{Binding }" FontSize="18" HorizontalTextAlignment="Center"></Label>
-                        </ContentView>
-                    </DataTemplate>
-                </test2:TabLayout.ItemTemplate>
-            </test2:TabLayout>
+                    <test2:TabLayout.AnimateHelper>
+                        <test2:BarAnimateHelper BarHeight="5" BorderRadius="15" WidthScale=".5">
+                        </test2:BarAnimateHelper>
+                    </test2:TabLayout.AnimateHelper>
+                    <test2:TabLayout.ItemTemplate>
+                        <DataTemplate>
+                            <ContentView >
+                                <Label Text="{Binding }" FontSize="18" HorizontalTextAlignment="Center"></Label>
+                            </ContentView>
+                        </DataTemplate>
+                    </test2:TabLayout.ItemTemplate>
+                </test2:TabLayout>
+            </test2:ScrollWrapper>
+        
         </test2:NestContentView>
 
       

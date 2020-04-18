@@ -30,8 +30,7 @@ namespace TestApp.Droid.Test
 
         protected override void Dispose(bool disposing)
         {
-            XFViews.Clear();
-            XFViews = null;
+            XFViews.Clear();            
             base.Dispose(disposing);
         }
 
