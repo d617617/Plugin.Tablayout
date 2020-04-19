@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace TestApp.Test2
 {
-    public class ScrollWrapper : ScrollView 
+    public class ScrollWrapper : ScrollView
     {
         public ScrollWrapper()
         {
@@ -20,33 +20,29 @@ namespace TestApp.Test2
         /// </summary>
         /// <param name="index">指定索引</param>
         /// <param name="offset">偏移</param>
-        public void ScrollToIndex(int index,double offset=0) 
+        public void ScrollToIndex(int index, double offset = 0)
         {
-
             if (Content is TabLayout tablayout)
             {
-                if (tablayout.TabIndex == index||tablayout.Width<=this.Width)
+
+                if (tablayout.TabIndex == index || tablayout.Width <= this.Width)
                 {
                     return;
                 }
-                var centerWidth = this.Width / 2;
-                var point = tablayout.GetPoint(index);
-                var x1 = point.X - ScrollX;
-                if (x1>=0&&x1<=centerWidth)
+                double maxScrollX = tablayout.Width - Width;
+                var rect = tablayout.GetRect(index);
+                var point = rect.Location;
+                var centerDistance = (Width - rect.Width) / 2;                                 
+                var theoryScrollX = point.X - centerDistance;                
+                if (theoryScrollX<0||theoryScrollX>maxScrollX)
                 {
                     return;
-                }
-                else if (x1<0)
-                {
-                    ScrollToAsync(ScrollX-point.X, 0, true);
                 }
                 else
                 {
-                    ScrollToAsync(point.X - ScrollX - centerWidth, 0, true);
+                    ScrollToAsync(theoryScrollX, 0, true);
                 }
-
             }
-           
         }
     }
 }

@@ -20,7 +20,10 @@ namespace TestApp.Test2
         public float WidthScale { get; set; } = 1;
 
 
-
+        /// <summary>
+        /// 将bar推送到tablayout中
+        /// </summary>
+        /// <param name="parent"></param>
         public void Attatch(View parent)
         {
             if (parent == null)
@@ -35,7 +38,7 @@ namespace TestApp.Test2
             tabLayout = parent as TabLayout;
             tabLayout.Children.Add(bar);
         }
-
+     
         public void LayoutAnimateElement(double x, double y, double width, double height)
         {
             var index = tabLayout.TabItemIndex;
@@ -84,10 +87,10 @@ namespace TestApp.Test2
                 }
                 var nowWidth = (targetBarTuple.Item1 - startBarTuple.Item1) * scrollArg.Rate + startBarTuple.Item1;
                 LayoutBar(new Rectangle(noxX, bar.Y, nowWidth, BarHeight));
-            }
-         
-          
+            }                   
         }
+
+
         protected void ViewPager_PageIndexChanged(object arg1, EventArgs arg2)
         {
             LayoutBar(((TestViewPager)arg1).PageIndex);

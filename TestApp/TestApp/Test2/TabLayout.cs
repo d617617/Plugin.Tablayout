@@ -33,6 +33,9 @@ namespace TestApp.Test2
             default(IList),
             propertyChanged: (obj, o, n) => ((TabLayout)obj).DataRender()
             );
+
+
+
         public IList ItemSource
         {
             get => (IList)GetValue(ItemSourceProperty);
@@ -58,7 +61,7 @@ namespace TestApp.Test2
         public static readonly BindableProperty TabTypeProperty = BindableProperty.Create(
             nameof(TabType), typeof(TabType), typeof(TabLayout),
             TabType.Grid,
-            propertyChanged: (obj, o, n) => 
+            propertyChanged: (obj, o, n) =>
             {
                 ((TabLayout)(obj)).InvalidateLayout();
             }
@@ -84,7 +87,7 @@ namespace TestApp.Test2
 
         #region ItemSouceBy    
         public static readonly BindableProperty ItemsSourceByProperty =
-            BindableProperty.Create("ItemsSourceBy", typeof(VisualElement), typeof(TestBoxViewWrapper),
+            BindableProperty.Create("ItemsSourceBy", typeof(VisualElement), typeof(TabLayout),
                 default(VisualElement),
             propertyChanged: (bindable, oldValue, newValue)
          => ((TabLayout)bindable).LinkToViewPager());
@@ -177,7 +180,8 @@ namespace TestApp.Test2
             switch (TabType)
             {
                 case TabType.LinearLayout:
-                    request.Width = widthAll;
+                case TabType.ScrollLinearLayout:
+                    request.Width = widthAll + (sourceViews.Count - 1) * Space;
                     break;
                 case TabType.Grid:
                     request.Width = widthConstraint;
@@ -195,6 +199,7 @@ namespace TestApp.Test2
             switch (TabType)
             {
                 case TabType.LinearLayout:
+                case TabType.ScrollLinearLayout:
                     LinearLayout(x, y, width, height);
                     break;
                 case TabType.Grid:
@@ -227,7 +232,7 @@ namespace TestApp.Test2
         }
 
         void CenterLayout(double x, double y, double width, double height)
-        {           
+        {
             double widthAll = Space * (this.sourceViews.Count - 1);
             Dictionary<View, Size> itemSizes = new Dictionary<View, Size>();
             foreach (var item in sourceViews)
@@ -309,6 +314,7 @@ namespace TestApp.Test2
     {
         LinearLayout,
         Grid,
-        Center
+        Center,
+        ScrollLinearLayout
     }
 }

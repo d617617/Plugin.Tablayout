@@ -27,16 +27,10 @@ namespace TestApp.Views
 
             BindingContext = viewModel = new ItemsViewModel();
             List<string> datas = new List<string>();
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 25; i++)
             {
-                var random = new Random();
-                var count=random.Next(0,5);
-                var str = "";
-                for (int j = 0; j < count; j++)
-                {
-                    str += j.ToString();
-                }
-                datas.Add($"第{str}项");
+               
+                datas.Add($"第{i+1}项");
             }
             myList2.ItemSource = datas;
             //BindableLayout.SetItemsSource(stLayout, datas);          
