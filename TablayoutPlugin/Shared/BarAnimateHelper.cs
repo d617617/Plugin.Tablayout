@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using TestApp.Test;
 using Xamarin.Forms;
 
-namespace TestApp.Test2
+namespace Plugin.TablayoutPlugin.Shared
 {
     public class BarAnimateHelper : BindableObject, IAnimateHelper
     {

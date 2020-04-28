@@ -16,13 +16,13 @@ using TestApp.Test;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
-[assembly: ExportRenderer(typeof(TestViewPager), typeof(TestApp.Droid.Test.TestViewPagerRender))]
+[assembly: ExportRenderer(typeof(ViewPagerXF), typeof(TestApp.Droid.Test.ViewPagerXFRender))]
 namespace TestApp.Droid.Test
 {
-    public class TestViewPagerRender : ViewRenderer<TestViewPager, ViewPager>
+    public class ViewPagerXFRender : ViewRenderer<ViewPagerXF, ViewPager>
     {
         ViewPager _viewPager = null;
-        TestViewPager _xFViewPager = null;
+        ViewPagerXF _xFViewPager = null;
 
         int XFPagerIndex => _xFViewPager.PageIndex;
         bool isFirst;
@@ -30,25 +30,19 @@ namespace TestApp.Droid.Test
         bool _scrollRightDire;
         int _pointState = -1;
 
-        public TestViewPagerRender(Context context)
+        public ViewPagerXFRender(Context context)
             : base(context)
         {
-         
+
         }
 
 
-
-        protected override void OnElementChanged(ElementChangedEventArgs<TestViewPager> e)
+        protected override void OnElementChanged(ElementChangedEventArgs<ViewPagerXF> e)
         {
             base.OnElementChanged(e);
             if (e.OldElement != null)
             {
-                if (_viewPager!=null)
-                {
-                    _viewPager.ScrollChange -= ViewPager_ScrollChange;
-                    _viewPager.PageScrolled -= ViewPager_PageScrolled;
-                    _viewPager.PageScrollStateChanged -= ViewPager_PageScrollStateChanged;
-                }             
+                UnRegisterPageEvents();
             }
 
             if (e.NewElement != null)
@@ -62,6 +56,14 @@ namespace TestApp.Droid.Test
 
         }
 
+        void UnRegisterPageEvents()
+        {
+            _viewPager.ScrollChange -= ScrollChange_Default;
+            _viewPager.PageScrolled -= PageScrolled_Default;
+            _viewPager.PageScrollStateChanged -= PageScrollStateChanged_Default;
+            _viewPager.ClearOnPageChangeListeners();
+        }
+
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             base.OnElementPropertyChanged(sender, e);
@@ -70,7 +72,7 @@ namespace TestApp.Droid.Test
             {
                 if (_xFViewPager == null)
                 {
-                    _xFViewPager = sender as TestViewPager;
+                    _xFViewPager = sender as ViewPagerXF;
                     _xFViewPager.SetPageIndexAction = (index, isSmooth) =>
                     {
                         _viewPager.SetCurrentItem(index, isSmooth);
@@ -81,7 +83,6 @@ namespace TestApp.Droid.Test
 
         protected override void OnAttachedToWindow()
         {
-
             base.OnAttachedToWindow();
             if (_viewPager.Adapter == null)
             {
@@ -97,15 +98,15 @@ namespace TestApp.Droid.Test
             base.OnLayout(changed, left, top, right, bottom);
             if (!isFirst)
             {
-                _viewPager.ScrollChange += ViewPager_ScrollChange;
-                _viewPager.PageScrolled += ViewPager_PageScrolled;          
-                _viewPager.PageScrollStateChanged += ViewPager_PageScrollStateChanged;
+                _viewPager.ScrollChange += ScrollChange_Default;
+                _viewPager.PageScrolled += PageScrolled_Default;
+                _viewPager.PageScrollStateChanged += PageScrollStateChanged_Default;
                 isFirst = true;
             }
         }
 
-        
-        void ViewPager_PageScrollStateChanged(object sender, ViewPager.PageScrollStateChangedEventArgs e)
+
+        void PageScrollStateChanged_Default(object sender, ViewPager.PageScrollStateChangedEventArgs e)
         {
             _pointState = e.State;
             if (_pointState == 0)
@@ -114,9 +115,9 @@ namespace TestApp.Droid.Test
             }
         }
 
-     
 
-        void ViewPager_PageScrolled(object sender, ViewPager.PageScrolledEventArgs e)
+
+        void PageScrolled_Default(object sender, ViewPager.PageScrolledEventArgs e)
         {
             var direction = 1;
             var currItem = _viewPager.CurrentItem;
@@ -128,14 +129,14 @@ namespace TestApp.Droid.Test
             var pageWidth = Width;
 
             var nowIndex = _nowScrollX / pageWidth;
-            if (e.PositionOffset==0) //
+            if (e.PositionOffset == 0) //
             {
                 direction = 0;
-                if (_pointState==2)
+                if (_pointState == 2)
                 {
                     scrollEvent.TargetIndex = currItem;
                 }
-                else if (_pointState==1)
+                else if (_pointState == 1)
                 {
                     scrollEvent.TargetIndex = nowIndex;
                 }
@@ -152,13 +153,13 @@ namespace TestApp.Droid.Test
                     else if (currItem == (nowIndex + 1))
                     {
                         direction = -1;
-                        scrollEvent.TargetIndex = nowIndex ;
-                    }                    
+                        scrollEvent.TargetIndex = nowIndex;
+                    }
                 }
                 else if (_pointState == 2) //手指抬起的状态
                 {
                     scrollEvent.TargetIndex = currItem;
-                    if (currItem == nowIndex||currItem==(nowIndex+1)) 
+                    if (currItem == nowIndex || currItem == (nowIndex + 1))
                     {
                         if (_scrollRightDire) //向右
                         {
@@ -168,7 +169,7 @@ namespace TestApp.Droid.Test
                         {
                             direction = -1;
                         }
-                    }                   
+                    }
                     else
                     {
                         if (currItem < nowIndex) //向左
@@ -212,13 +213,18 @@ namespace TestApp.Droid.Test
             Log.Debug("22", $"手指状态{_pointState},方向{scrollEvent.OffsetDirection} 当前Item{scrollEvent.NowIndex},NextPosition{scrollEvent.NextPosition},rate{scrollEvent.Rate}");
         }
 
-        void ViewPager_ScrollChange(object sender, ScrollChangeEventArgs e)
+
+        void ScrollChange_Default(object sender, ScrollChangeEventArgs e)
         {
             _nowScrollX = e.ScrollX;
             _scrollRightDire = e.ScrollX > e.OldScrollX;
         }
 
-
+        protected override void Dispose(bool disposing)
+        {
+            UnRegisterPageEvents();
+            base.Dispose(disposing);
+        }
     }
 
 }

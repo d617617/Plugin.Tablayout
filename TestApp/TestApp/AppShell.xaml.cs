@@ -10,6 +10,8 @@ namespace TestApp
         public AppShell()
         {
             InitializeComponent();
+
+            Routing.RegisterRoute("test", typeof(Views.ItemDetailPage));
         }
     }
 }

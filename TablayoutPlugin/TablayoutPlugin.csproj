@@ -87,9 +87,26 @@
     <Compile Include="**\*.apple.cs" />
   </ItemGroup>
 
+
+
+  
+
   <ItemGroup>
     <Folder Include="IOS\" />
   </ItemGroup>
+
+
+
+  
+
+
+
+  
+
+ 
+
+  
+
 
   <!--Additional item groups-->
   <!--

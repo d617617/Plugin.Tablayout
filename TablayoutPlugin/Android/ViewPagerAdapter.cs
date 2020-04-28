@@ -1,10 +1,7 @@
-﻿using Android.Content;
-using Android.Support.V4.App;
-using Android.Views;
+﻿using Android.Support.V4.App;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Xamarin.Forms.Platform.Android;
 
 namespace Plugin.TablayoutPlugin.Android
 {
@@ -18,10 +15,10 @@ namespace Plugin.TablayoutPlugin.Android
 
         public ViewPagerAdapter(FragmentManager fm, IList<Xamarin.Forms.View> pages)
 
-            :base(fm)
+            : base(fm)
         {
             XFViews = new List<Xamarin.Forms.View>();
-            this.XFViews = pages;           
+            this.XFViews = pages;
         }
 
         public override Fragment GetItem(int position)
@@ -33,8 +30,7 @@ namespace Plugin.TablayoutPlugin.Android
 
         protected override void Dispose(bool disposing)
         {
-            XFViews.Clear();
-            XFViews = null;
+            XFViews.Clear();            
             base.Dispose(disposing);
         }
 

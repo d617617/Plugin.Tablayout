@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Text;
-using TestApp.Test;
 using Xamarin.Forms;
 
-namespace TestApp.Test2
+namespace Plugin.TablayoutPlugin.Shared
 {
     public class TabLayout : Layout<View>
     {
@@ -120,7 +117,7 @@ namespace TestApp.Test2
         }
         #endregion
 
-      
+
         void DataRender()
         {
             if (ItemSource == null)

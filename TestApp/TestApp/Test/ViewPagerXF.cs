@@ -2,37 +2,50 @@
 using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
-using Plugin.TablayoutPlugin.Shared;
 
-namespace Plugin.TablayoutPlugin.Shared
+namespace TestApp.Test
 {
-    /// <summary>
-    /// 负责转换页
-    /// </summary>
-    public class XFViewPager : Layout<View>
+    public class ViewPagerXF:Layout<View>
     {
-        #region PageIndex
 
+        public ViewPagerXF()
+        {
+
+        }
+        #region PageIndex
+    
         public int PageIndex
         {
-            get; private set;
+            get;private set;
         }
 
 
         #endregion
 
+        #region PageCacheCount
+        public static readonly BindableProperty PageCacheCountProperty =
+     BindableProperty.Create(nameof(PageCacheCount), typeof(int), typeof(ViewPagerXF),
+         1, propertyChanged: (obj, o, n) => ((ViewPagerXF)obj).PageCacheCountChanged((int)n));
 
+        public int PageCacheCount
+        {
+            get => (int)GetValue(PageCacheCountProperty);
+            set => SetValue(PageCacheCountProperty, value);
+        }
 
+        void PageCacheCountChanged(int newVal) 
+        {
+        
+        }
+        #endregion
 
-        public Action<object, EventArgs> PageScrollStopped;
+        public double ScrollX { get; private set; }
+
         public event Action<object, EventArgs> PageIndexChanged;
         public event Action<object, PagerScrollEventArgs> PagerScroll;
 
         #region 由渲染器调用
-        public void PageScrollStoppedDone()
-        {
-            PageScrollStopped?.Invoke(this, null);
-        }
+        
         public void PageIndexChangedDone()
         {
             PageIndexChanged?.Invoke(this, null);
@@ -40,7 +53,7 @@ namespace Plugin.TablayoutPlugin.Shared
 
         public void PagerScrollEventDone(PagerScrollEventArgs pagerScrollEvent)
         {
-            PagerScroll?.Invoke(this, pagerScrollEvent);
+            PagerScroll?.Invoke(this, pagerScrollEvent);           
         }
 
         public void SetPageIndexByRender(int pageIndex)
@@ -64,6 +77,7 @@ namespace Plugin.TablayoutPlugin.Shared
 
         #endregion
 
+
         protected override SizeRequest OnMeasure(double widthConstraint, double heightConstraint)
         {
             if (Children.Count == 0)
@@ -84,6 +98,7 @@ namespace Plugin.TablayoutPlugin.Shared
 
         }
 
+
         protected override void LayoutChildren(double x, double y, double width, double height)
         {
             if (Children.Count == 0)
@@ -97,25 +112,7 @@ namespace Plugin.TablayoutPlugin.Shared
                 itemX += width;
             }
         }
-    }
 
-    public class PagerScrollEventArgs
-    {
-        /// <summary>
-        /// 比例
-        /// </summary>
-        public double Rate { get; set; }
-
-        public int StartIndex { get; set; }
-
-        /// <summary>
-        /// 当前的索引值，在滑动中会变化
-        /// </summary>
-        public int NowIndex { get; set; }
-
-        /// <summary>
-        /// 目标Index
-        /// </summary>
-        public int TargetIndex { get; set; }
+        
     }
 }

@@ -53,8 +53,17 @@ namespace TestApp.Droid.Test
             }
             var nativeView = vRenderer.View;
             nativeView.RemoveFromParent();
-            vRenderer.Tracker.UpdateLayout();
+            vRenderer.Tracker.UpdateLayout();           
             return nativeView;
+        }
+
+        public override void OnDestroyView()
+        {
+            base.OnDestroyView();
+            if (XFView is IDisposable)
+            {
+                ((IDisposable)XFView).Dispose();
+            }
         }
     }
 }

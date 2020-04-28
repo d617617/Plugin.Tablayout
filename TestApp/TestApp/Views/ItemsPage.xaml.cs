@@ -10,7 +10,6 @@ using Xamarin.Forms.Xaml;
 using TestApp.Models;
 using TestApp.Views;
 using TestApp.ViewModels;
-using Plugin.TablayoutPlugin.Shared;
 
 namespace TestApp.Views
 {
@@ -37,19 +36,26 @@ namespace TestApp.Views
             // myList.ItemsSource = new List<string>() { "11","22","33","44","55","666"};
         }
 
-        private void Button_Clicked(object sender, EventArgs e)
-        {
-            Random r = new Random();
-            //this.myList2.TabType = Test2.TabType.Grid;
-            ////this.testPager.SetPageIndex(3, true);
-            ////myList.Test();
-            this.wrapper.ScrollToIndex(8);
-        }
+        //private  async Task Button_Clicked(object sender, EventArgs e)
+        //{
+        //    Random r = new Random();
+        //    //this.myList2.TabType = Test2.TabType.Grid;
+        //    ////this.testPager.SetPageIndex(3, true);
+        //    ////myList.Test();
+        //    //this.wrapper.ScrollToIndex(8);
+        //    await Shell.Current.GoToAsync("//test");
+        //}
 
-        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        private async Task TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
             var a = sender as View;
-           
+            await Navigation.PushAsync(new NewItemPage());
+            await Shell.Current.GoToAsync("//test");
+        }
+
+        private async void Button_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new NewItemPage());
         }
     }
 }

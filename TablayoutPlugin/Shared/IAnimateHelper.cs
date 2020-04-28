@@ -1,25 +1,23 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using TestApp.Test;
-using Xamarin.Forms;
 
-namespace TestApp.Test2
+namespace Plugin.TablayoutPlugin.Shared
 {
     public interface IAnimateHelper
-    {        
+    {
         /// <summary>
         /// 添加到Tablayout
         /// </summary>
         /// <param name="parent"></param>
-        void Attatch(View parent);
+        void Attatch(Xamarin.Forms.View parent);
+        
 
         /// <summary>
         /// 设定ViewPager的事件
         /// </summary>
         /// <param name="viewPager"></param>
-        void SetViewPagerAnimate(Test.ViewPagerXF viewPager);
+        void SetViewPagerAnimate(ViewPagerXF viewPager);
 
         /// <summary>
         /// 定位动画元素
@@ -30,6 +28,6 @@ namespace TestApp.Test2
         /// <param name="height"></param>
         void LayoutAnimateElement(double x, double y, double width, double height);
 
-      
+
     }
 }

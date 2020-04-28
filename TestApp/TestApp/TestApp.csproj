@@ -11,10 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\TablayoutPlugin\TablayoutPlugin.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Update="Views\TestPage.xaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>

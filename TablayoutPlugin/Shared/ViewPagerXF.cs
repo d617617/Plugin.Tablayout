@@ -3,15 +3,20 @@ using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
 
-namespace TestApp.Test
+namespace Plugin.TablayoutPlugin.Shared
 {
-    public class TestViewPager:Layout<View>
+    public class ViewPagerXF : Layout<View>
     {
+
+        public ViewPagerXF()
+        {
+
+        }
         #region PageIndex
-    
+
         public int PageIndex
         {
-            get;private set;
+            get; private set;
         }
 
 
@@ -19,8 +24,8 @@ namespace TestApp.Test
 
         #region PageCacheCount
         public static readonly BindableProperty PageCacheCountProperty =
-     BindableProperty.Create(nameof(PageCacheCount), typeof(int), typeof(TestViewPager),
-         1, propertyChanged: (obj, o, n) => ((TestViewPager)obj).PageCacheCountChanged((int)n));
+     BindableProperty.Create(nameof(PageCacheCount), typeof(int), typeof(ViewPagerXF),
+         1, propertyChanged: (obj, o, n) => ((ViewPagerXF)obj).PageCacheCountChanged((int)n));
 
         public int PageCacheCount
         {
@@ -28,18 +33,19 @@ namespace TestApp.Test
             set => SetValue(PageCacheCountProperty, value);
         }
 
-        void PageCacheCountChanged(int newVal) 
+        void PageCacheCountChanged(int newVal)
         {
-        
+
         }
         #endregion
+
         public double ScrollX { get; private set; }
 
         public event Action<object, EventArgs> PageIndexChanged;
         public event Action<object, PagerScrollEventArgs> PagerScroll;
 
         #region 由渲染器调用
-        
+
         public void PageIndexChangedDone()
         {
             PageIndexChanged?.Invoke(this, null);
@@ -71,6 +77,7 @@ namespace TestApp.Test
 
         #endregion
 
+
         protected override SizeRequest OnMeasure(double widthConstraint, double heightConstraint)
         {
             if (Children.Count == 0)
@@ -91,6 +98,7 @@ namespace TestApp.Test
 
         }
 
+
         protected override void LayoutChildren(double x, double y, double width, double height)
         {
             if (Children.Count == 0)
@@ -104,5 +112,7 @@ namespace TestApp.Test
                 itemX += width;
             }
         }
+
+
     }
 }

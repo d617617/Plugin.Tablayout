@@ -2,10 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"             
-             xmlns:views="clr-namespace:TestApp.Views"
-             xmlns:test="clr-namespace:TestApp.Test"
-             xmlns:test2="clr-namespace:TestApp.Test2"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"                    
+             xmlns:test2="clr-namespace:TestApp.Test2" xmlns:test="clr-namespace:TestApp.Test" xmlns:views="clr-namespace:TestApp.Views"
              mc:Ignorable="d"
              x:Class="TestApp.Views.ItemsPage"
              Title="{Binding Title}"
@@ -35,17 +33,16 @@
                     </test2:TabLayout.ItemTemplate>
                 </test2:TabLayout>
             </test2:ScrollWrapper>
-        
-        </test2:NestContentView>
 
-      
-        <test:TestViewPager  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"                      
-                             x:Name="testPager" PageCacheCount="3" >
+        </test2:NestContentView>
+        <test:ViewPagerXF x:Name="testPager" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
             <views:TestView Title2="第一页"></views:TestView>
             <views:TestView Title2="第二页"></views:TestView>
             <views:TestView Title2="第三页"></views:TestView>
             <views:TestView Title2="第四页"></views:TestView>
-        </test:TestViewPager>
+            <views:TestView Title2="第五页"></views:TestView>
+        </test:ViewPagerXF>
+
     </StackLayout>
 
 </ContentPage>
