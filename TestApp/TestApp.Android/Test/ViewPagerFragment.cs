@@ -18,14 +18,21 @@ namespace TestApp.Droid.Test
     public class ViewPagerFragment : Fragment
     {
         Xamarin.Forms.View XFView { get; }
+        Xamarin.Forms.Page Page { get; }
         public ViewPagerFragment(Xamarin.Forms.View view)
         {
             this.XFView = view;
         }
 
+        public ViewPagerFragment(Xamarin.Forms.Page page)
+        {
+            this.Page = page;
+        }
+
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            var view = ConvertXFPageToNative(XFView, Context);
+            //var view = ConvertXFPageToNative(XFView, Context);
+            var view = ConvertXFPageToNative(Page, Context);
             return view;
         }
 

@@ -49,7 +49,7 @@ namespace TestApp.Droid.ToolBarTest
             toolbar.SetContentInsetsAbsolute(0, 0);
             toolbar.SetBackgroundColor(Color.Yellow.ToAndroid());
             toolbar.Title = "4234";
-            toolbar.Background.Alpha = 15;
+            toolbar.Background.Alpha = 1;
         }
     }
 }

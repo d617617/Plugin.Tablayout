@@ -10,7 +10,6 @@ using Android.OS;
 using Android.Runtime;
 using Android.Support.V4.View;
 using Android.Util;
-using Android.Views;
 using Android.Widget;
 using TestApp.Test;
 using Xamarin.Forms;
@@ -21,7 +20,7 @@ namespace TestApp.Droid.Test
 {
     public class ViewPagerXFRender : ViewRenderer<ViewPagerXF, ViewPager>
     {
-        ViewPager _viewPager = null;
+        MyViewPager _viewPager = null;
         ViewPagerXF _xFViewPager = null;
 
         int XFPagerIndex => _xFViewPager.PageIndex;
@@ -49,7 +48,7 @@ namespace TestApp.Droid.Test
             {
                 if (Control == null)
                 {
-                    _viewPager = new ViewPager(Context);
+                    _viewPager = new MyViewPager(Context);
                     SetNativeControl(_viewPager);
                 }
             }
@@ -87,9 +86,10 @@ namespace TestApp.Droid.Test
             if (_viewPager.Adapter == null)
             {
                 var fm = Context.GetFragmentManager();
-                ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(fm, _xFViewPager.Children);
+                ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(fm, _xFViewPager.Pages);
                 _viewPager.OffscreenPageLimit = _xFViewPager.PageCacheCount;
                 _viewPager.Adapter = pagerAdapter;
+                _viewPager.IsNotScrollByTouch = Element.IsNotScrollByTouch;
             }
         }
 
@@ -219,6 +219,8 @@ namespace TestApp.Droid.Test
             _nowScrollX = e.ScrollX;
             _scrollRightDire = e.ScrollX > e.OldScrollX;
         }
+
+       
 
         protected override void Dispose(bool disposing)
         {

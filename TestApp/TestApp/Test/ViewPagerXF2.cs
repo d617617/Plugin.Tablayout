@@ -5,18 +5,17 @@ using Xamarin.Forms;
 
 namespace TestApp.Test
 {
-    public class ViewPagerXF:Layout<View>
+    public class ViewPagerXF2:Layout<View>
     {
-
-        public ViewPagerXF()
+        public ViewPagerXF2()
         {
             Pages = new List<Page>();
         }
         #region PageIndex
-    
+
         public int PageIndex
         {
-            get;private set;
+            get; private set;
         }
 
 
@@ -24,8 +23,8 @@ namespace TestApp.Test
 
         #region PageCacheCount
         public static readonly BindableProperty PageCacheCountProperty =
-     BindableProperty.Create(nameof(PageCacheCount), typeof(int), typeof(ViewPagerXF),
-         1, propertyChanged: (obj, o, n) => ((ViewPagerXF)obj).PageCacheCountChanged((int)n));
+     BindableProperty.Create(nameof(PageCacheCount), typeof(int), typeof(ViewPagerXF2),
+         1, propertyChanged: (obj, o, n) => ((ViewPagerXF2)obj).PageCacheCountChanged((int)n));
 
         public int PageCacheCount
         {
@@ -33,11 +32,13 @@ namespace TestApp.Test
             set => SetValue(PageCacheCountProperty, value);
         }
 
-        void PageCacheCountChanged(int newVal) 
+        void PageCacheCountChanged(int newVal)
         {
-        
+
         }
         #endregion
+
+        public IList<Page> Pages { get; set; }
 
         public bool IsNotScrollByTouch { get; set; }
 
@@ -45,8 +46,6 @@ namespace TestApp.Test
 
         public event Action<object, EventArgs> PageIndexChanged;
         public event Action<object, PagerScrollEventArgs> PagerScroll;
-
-        public IList<Page> Pages { get; set; }
 
         #region 由渲染器调用
 
@@ -57,7 +56,7 @@ namespace TestApp.Test
 
         public void PagerScrollEventDone(PagerScrollEventArgs pagerScrollEvent)
         {
-            PagerScroll?.Invoke(this, pagerScrollEvent);           
+            PagerScroll?.Invoke(this, pagerScrollEvent);
         }
 
         public void SetPageIndexByRender(int pageIndex)
@@ -117,6 +116,5 @@ namespace TestApp.Test
             }
         }
 
-        
     }
 }

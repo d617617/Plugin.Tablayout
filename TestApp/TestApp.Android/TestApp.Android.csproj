@@ -75,6 +75,7 @@
     <Compile Include="Test2\MyListViewRenderer.cs" />
     <Compile Include="Test2\ScrollTablayoutRender.cs" />
     <Compile Include="Test2\NestContentViewRender.cs" />
+    <Compile Include="Test\MyViewPager.cs" />
     <Compile Include="Test\ViewPagerXFRender.cs" />
     <Compile Include="Test\ViewPagerAdapter.cs" />
     <Compile Include="Test\ViewPagerFragment.cs" />
