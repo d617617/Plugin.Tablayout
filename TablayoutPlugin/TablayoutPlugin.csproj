@@ -96,18 +96,6 @@
   </ItemGroup>
 
 
-
-  
-
-
-
-  
-
- 
-
-  
-
-
   <!--Additional item groups-->
   <!--
   <ItemGroup Condition=" $(TargetFramework.StartsWith('Xamarin.TVOS')) ">

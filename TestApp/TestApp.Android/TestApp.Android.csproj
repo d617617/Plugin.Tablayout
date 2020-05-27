@@ -59,6 +59,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Plugin.CurrentActivity">
+      <Version>2.1.0.4</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Android.SwitchButton">
       <Version>1.4.6</Version>
     </PackageReference>
@@ -75,6 +78,7 @@
     <Compile Include="Test\ViewPagerXFRender.cs" />
     <Compile Include="Test\ViewPagerAdapter.cs" />
     <Compile Include="Test\ViewPagerFragment.cs" />
+    <Compile Include="ToolBarTest\CustomToolbarAppearanceTracker.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

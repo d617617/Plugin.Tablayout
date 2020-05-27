@@ -4,11 +4,16 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"                    
              xmlns:test2="clr-namespace:TestApp.Test2" xmlns:test="clr-namespace:TestApp.Test" xmlns:views="clr-namespace:TestApp.Views"
-             mc:Ignorable="d"
+             mc:Ignorable="d"             
              x:Class="TestApp.Views.ItemsPage"
-             Title="{Binding Title}"
+             Title="测试"
+             
              x:Name="BrowseItemsPage">
-
+    <Shell.TitleView>
+        <StackLayout BackgroundColor="Transparent" Padding="0" Margin="5" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <Label Text="测试22"></Label>
+        </StackLayout>
+    </Shell.TitleView>
 
 
     <StackLayout>
