@@ -7,11 +7,9 @@ namespace TestApp.Droid.Test
 {
     public class ViewPagerAdapter : FragmentStatePagerAdapter
     {
-        public IList<Xamarin.Forms.View> XFViews { get; set; }
+        public IList<Xamarin.Forms.View> XFViews { get; set; }        
 
-        public IList<Xamarin.Forms.Page> Pages { get; set; }
-
-        public override int Count => /*XFViews*/Pages.Count;
+        public override int Count =>XFViews.Count;
 
 
 
@@ -23,18 +21,10 @@ namespace TestApp.Droid.Test
             this.XFViews = views;
         }
 
-        public ViewPagerAdapter(FragmentManager fm, IList<Xamarin.Forms.Page> pages)
-
-         : base(fm)
-        {
-            Pages = new List<Xamarin.Forms.Page>();
-            Pages = pages;
-        }
-
+    
         public override Fragment GetItem(int position)
-        {
-            //ViewPagerFragment fragment = new ViewPagerFragment(XFViews[position]);
-            ViewPagerFragment fragment = new ViewPagerFragment(Pages[position]);
+        {          
+            ViewPagerFragment fragment = new ViewPagerFragment(XFViews[position]);
             return fragment;
         }
 

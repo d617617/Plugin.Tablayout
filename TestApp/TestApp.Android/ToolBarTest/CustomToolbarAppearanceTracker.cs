@@ -15,7 +15,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
 
-[assembly: ExportRenderer(typeof(TestApp.AppShell), typeof(CustomShellRenderer))]
+
 namespace TestApp.Droid.ToolBarTest
 {
     public class CustomShellRenderer : ShellRenderer

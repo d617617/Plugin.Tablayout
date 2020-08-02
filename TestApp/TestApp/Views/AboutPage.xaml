@@ -11,11 +11,11 @@
         <StackLayout>
             <Label Text="233"></Label>
             <test:ViewPagerXF HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                <test:ViewPagerXF.Pages>
-                    <views:TestPage></views:TestPage>
-                    <views:NewItemPage></views:NewItemPage>
-                    <views:TestPage></views:TestPage>
-                </test:ViewPagerXF.Pages>
+                <views:TestView></views:TestView>
+                <views:TestView></views:TestView>
+                <views:TestView></views:TestView>
+                <views:TestView></views:TestView>
+                <views:TestView></views:TestView>
             </test:ViewPagerXF>
         </StackLayout>
     </ContentPage.Content>

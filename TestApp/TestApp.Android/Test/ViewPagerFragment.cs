@@ -17,22 +17,16 @@ namespace TestApp.Droid.Test
 {
     public class ViewPagerFragment : Fragment
     {
-        Xamarin.Forms.View XFView { get; }
-        Xamarin.Forms.Page Page { get; }
+        Xamarin.Forms.View XFView { get; }        
         public ViewPagerFragment(Xamarin.Forms.View view)
         {
             this.XFView = view;
         }
-
-        public ViewPagerFragment(Xamarin.Forms.Page page)
-        {
-            this.Page = page;
-        }
+      
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            //var view = ConvertXFPageToNative(XFView, Context);
-            var view = ConvertXFPageToNative(Page, Context);
+            var view = ConvertXFPageToNative(XFView, Context);         
             return view;
         }
 
@@ -49,20 +43,7 @@ namespace TestApp.Droid.Test
             vRenderer.Tracker.UpdateLayout();
             return nativeView;
         }
-
-        public View ConvertXFPageToNative(Xamarin.Forms.Page page, Context context)
-        {
-            var vRenderer = page.GetRenderer();
-            if (vRenderer == null)
-            {
-                Platform.SetRenderer(page, Platform.CreateRendererWithContext(page, context));
-                vRenderer = page.GetRenderer();
-            }
-            var nativeView = vRenderer.View;
-            nativeView.RemoveFromParent();
-            vRenderer.Tracker.UpdateLayout();           
-            return nativeView;
-        }
+    
 
         public override void OnDestroyView()
         {

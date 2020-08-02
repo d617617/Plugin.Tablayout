@@ -28,12 +28,18 @@ namespace TestApp.Views
             List<string> datas = new List<string>();
             for (int i = 0; i < 25; i++)
             {
-               
-                datas.Add($"第{i+1}项");
+
+                datas.Add($"第{i + 1}项");
             }
             myList2.ItemSource = datas;
+            testPager.PageIndexChanged += TestPager_PageIndexChanged;
             //BindableLayout.SetItemsSource(stLayout, datas);          
             // myList.ItemsSource = new List<string>() { "11","22","33","44","55","666"};
+        }
+
+        private void TestPager_PageIndexChanged(object arg1, EventArgs arg2)
+        {
+            
         }
 
         //private  async Task Button_Clicked(object sender, EventArgs e)
@@ -48,14 +54,21 @@ namespace TestApp.Views
 
         private async Task TapGestureRecognizer_Tapped(object sender, EventArgs e)
         {
-            var a = sender as View;
-            await Navigation.PushAsync(new NewItemPage());
-            await Shell.Current.GoToAsync("//test");
+
         }
 
-        private async void Button_Clicked(object sender, EventArgs e)
+        bool isStop = true;
+         async void Button_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new NewItemPage());
+            //while (true)
+            //{
+            //    if (isStop)
+            //    {
+            //        return;
+            //    }
+            //    await this.testLbl.RotateTo(360);
+            //    testLbl.Rotation = 0;
+            //}
         }
     }
 }

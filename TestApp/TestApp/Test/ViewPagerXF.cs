@@ -1,22 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 using Xamarin.Forms;
 
 namespace TestApp.Test
 {
-    public class ViewPagerXF:Layout<View>
+    public class ViewPagerXF : Layout<View>
     {
 
         public ViewPagerXF()
         {
-            Pages = new List<Page>();
+
         }
         #region PageIndex
-    
+
         public int PageIndex
         {
-            get;private set;
+            get; private set;
         }
 
 
@@ -33,9 +34,9 @@ namespace TestApp.Test
             set => SetValue(PageCacheCountProperty, value);
         }
 
-        void PageCacheCountChanged(int newVal) 
+        void PageCacheCountChanged(int newVal)
         {
-        
+
         }
         #endregion
 
@@ -46,20 +47,21 @@ namespace TestApp.Test
         public event Action<object, EventArgs> PageIndexChanged;
         public event Action<object, PagerScrollEventArgs> PagerScroll;
 
-        public IList<Page> Pages { get; set; }
 
         #region 由渲染器调用
 
-        public void PageIndexChangedDone()
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public void PageIndexChangedDoneByRender()
         {
             PageIndexChanged?.Invoke(this, null);
         }
-
-        public void PagerScrollEventDone(PagerScrollEventArgs pagerScrollEvent)
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public void PagerScrollEventDoneByRender(PagerScrollEventArgs pagerScrollEvent)
         {
-            PagerScroll?.Invoke(this, pagerScrollEvent);           
+            PagerScroll?.Invoke(this, pagerScrollEvent);
         }
 
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public void SetPageIndexByRender(int pageIndex)
         {
             PageIndex = pageIndex;

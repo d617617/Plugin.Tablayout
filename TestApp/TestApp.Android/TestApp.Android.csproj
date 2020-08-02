@@ -72,7 +72,6 @@
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Test2\MyListViewRenderer.cs" />
     <Compile Include="Test2\ScrollTablayoutRender.cs" />
     <Compile Include="Test2\NestContentViewRender.cs" />
     <Compile Include="Test\MyViewPager.cs" />

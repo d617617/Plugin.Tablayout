@@ -51,6 +51,9 @@ namespace TestApp.Droid.Test
                     _viewPager = new MyViewPager(Context);
                     SetNativeControl(_viewPager);
                 }
+                _viewPager.IsNotScrollByTouch = Element.IsNotScrollByTouch;
+                _xFViewPager = e.NewElement;
+                RegisterPageEvents();
             }
 
         }
@@ -63,22 +66,35 @@ namespace TestApp.Droid.Test
             _viewPager.ClearOnPageChangeListeners();
         }
 
-        protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
+        void RegisterPageEvents()
         {
-            base.OnElementPropertyChanged(sender, e);
-            var propName = e.PropertyName;
-            if (propName == "Renderer")
+            _viewPager.ScrollChange += ScrollChange_Default;
+            _viewPager.PageScrolled += PageScrolled_Default;
+            _viewPager.PageScrollStateChanged += PageScrollStateChanged_Default;
+            _xFViewPager.SetPageIndexAction = (index, isSmooth) =>
             {
-                if (_xFViewPager == null)
-                {
-                    _xFViewPager = sender as ViewPagerXF;
-                    _xFViewPager.SetPageIndexAction = (index, isSmooth) =>
-                    {
-                        _viewPager.SetCurrentItem(index, isSmooth);
-                    };
-                }
-            }
+                _viewPager.SetCurrentItem(index, isSmooth);
+            };
         }
+
+        #region OnElementPropertyChanged
+        //protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
+        //{
+        //    base.OnElementPropertyChanged(sender, e);
+        //    var propName = e.PropertyName;
+        //    if (propName == "Renderer")
+        //    {
+        //        if (_xFViewPager == null)
+        //        {
+        //            _xFViewPager = sender as ViewPagerXF;
+        //            _xFViewPager.SetPageIndexAction = (index, isSmooth) =>
+        //            {
+        //                _viewPager.SetCurrentItem(index, isSmooth);
+        //            };
+        //        }
+        //    }
+        //} 
+        #endregion
 
         protected override void OnAttachedToWindow()
         {
@@ -86,10 +102,9 @@ namespace TestApp.Droid.Test
             if (_viewPager.Adapter == null)
             {
                 var fm = Context.GetFragmentManager();
-                ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(fm, _xFViewPager.Pages);
+                ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(fm, _xFViewPager.Children);
                 _viewPager.OffscreenPageLimit = _xFViewPager.PageCacheCount;
                 _viewPager.Adapter = pagerAdapter;
-                _viewPager.IsNotScrollByTouch = Element.IsNotScrollByTouch;
             }
         }
 
@@ -98,9 +113,7 @@ namespace TestApp.Droid.Test
             base.OnLayout(changed, left, top, right, bottom);
             if (!isFirst)
             {
-                _viewPager.ScrollChange += ScrollChange_Default;
-                _viewPager.PageScrolled += PageScrolled_Default;
-                _viewPager.PageScrollStateChanged += PageScrollStateChanged_Default;
+
                 isFirst = true;
             }
         }
@@ -111,7 +124,12 @@ namespace TestApp.Droid.Test
             _pointState = e.State;
             if (_pointState == 0)
             {
+                var oldIndex = Element.PageIndex;
                 _xFViewPager.SetPageIndexByRender(_viewPager.CurrentItem);
+                if (oldIndex!=_viewPager.CurrentItem)
+                {
+                    Element.PageIndexChangedDoneByRender();
+                }
             }
         }
 
@@ -208,7 +226,7 @@ namespace TestApp.Droid.Test
 
             #endregion
 
-            _xFViewPager.PagerScrollEventDone(scrollEvent);
+            _xFViewPager.PagerScrollEventDoneByRender(scrollEvent);
 
             Log.Debug("22", $"手指状态{_pointState},方向{scrollEvent.OffsetDirection} 当前Item{scrollEvent.NowIndex},NextPosition{scrollEvent.NextPosition},rate{scrollEvent.Rate}");
         }
@@ -220,7 +238,7 @@ namespace TestApp.Droid.Test
             _scrollRightDire = e.ScrollX > e.OldScrollX;
         }
 
-       
+
 
         protected override void Dispose(bool disposing)
         {
