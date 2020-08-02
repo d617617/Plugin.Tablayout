@@ -1,10 +1,8 @@
 ﻿using Android.Content;
 using Android.Support.V4.View;
 using Android.Views;
-using TestApp.Test;
-using Xamarin.Forms;
 
-namespace TestApp.Droid.Test
+namespace Plugin.TablayoutPlugin.Android
 {
     public class MyViewPager : ViewPager
     {
@@ -33,5 +31,4 @@ namespace TestApp.Droid.Test
             return IsNotScrollByTouch ? false : base.OnTouchEvent(e);
         }
     }
-
 }
