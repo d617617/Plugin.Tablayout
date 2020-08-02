@@ -21,7 +21,7 @@ namespace Plugin.TablayoutPlugin.Android
 {
     public class ViewPagerXFRender : ViewRenderer<ViewPagerXF, ViewPager>
     {
-        ViewPager _viewPager = null;
+        MyViewPager _viewPager = null;
         ViewPagerXF _xFViewPager = null;
 
         int XFPagerIndex => _xFViewPager.PageIndex;
@@ -49,9 +49,12 @@ namespace Plugin.TablayoutPlugin.Android
             {
                 if (Control == null)
                 {
-                    _viewPager = new ViewPager(Context);
+                    _viewPager = new MyViewPager(Context);
                     SetNativeControl(_viewPager);
                 }
+                _viewPager.IsNotScrollByTouch = Element.IsNotScrollByTouch;
+                _xFViewPager = e.NewElement;
+                RegisterPageEvents();
             }
 
         }
@@ -64,22 +67,35 @@ namespace Plugin.TablayoutPlugin.Android
             _viewPager.ClearOnPageChangeListeners();
         }
 
-        protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
+        void RegisterPageEvents()
         {
-            base.OnElementPropertyChanged(sender, e);
-            var propName = e.PropertyName;
-            if (propName == "Renderer")
+            _viewPager.ScrollChange += ScrollChange_Default;
+            _viewPager.PageScrolled += PageScrolled_Default;
+            _viewPager.PageScrollStateChanged += PageScrollStateChanged_Default;
+            _xFViewPager.SetPageIndexAction = (index, isSmooth) =>
             {
-                if (_xFViewPager == null)
-                {
-                    _xFViewPager = sender as ViewPagerXF;
-                    _xFViewPager.SetPageIndexAction = (index, isSmooth) =>
-                    {
-                        _viewPager.SetCurrentItem(index, isSmooth);
-                    };
-                }
-            }
+                _viewPager.SetCurrentItem(index, isSmooth);
+            };
         }
+
+        #region OnElementPropertyChanged
+        //protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
+        //{
+        //    base.OnElementPropertyChanged(sender, e);
+        //    var propName = e.PropertyName;
+        //    if (propName == "Renderer")
+        //    {
+        //        if (_xFViewPager == null)
+        //        {
+        //            _xFViewPager = sender as ViewPagerXF;
+        //            _xFViewPager.SetPageIndexAction = (index, isSmooth) =>
+        //            {
+        //                _viewPager.SetCurrentItem(index, isSmooth);
+        //            };
+        //        }
+        //    }
+        //} 
+        #endregion
 
         protected override void OnAttachedToWindow()
         {
@@ -98,9 +114,7 @@ namespace Plugin.TablayoutPlugin.Android
             base.OnLayout(changed, left, top, right, bottom);
             if (!isFirst)
             {
-                _viewPager.ScrollChange += ScrollChange_Default;
-                _viewPager.PageScrolled += PageScrolled_Default;
-                _viewPager.PageScrollStateChanged += PageScrollStateChanged_Default;
+
                 isFirst = true;
             }
         }
@@ -111,7 +125,12 @@ namespace Plugin.TablayoutPlugin.Android
             _pointState = e.State;
             if (_pointState == 0)
             {
+                var oldIndex = Element.PageIndex;
                 _xFViewPager.SetPageIndexByRender(_viewPager.CurrentItem);
+                if (oldIndex != _viewPager.CurrentItem)
+                {
+                    Element.PageIndexChangedDoneByRender();
+                }
             }
         }
 
@@ -208,7 +227,7 @@ namespace Plugin.TablayoutPlugin.Android
 
             #endregion
 
-            _xFViewPager.PagerScrollEventDone(scrollEvent);
+            _xFViewPager.PagerScrollEventDoneByRender(scrollEvent);
 
             Log.Debug("22", $"手指状态{_pointState},方向{scrollEvent.OffsetDirection} 当前Item{scrollEvent.NowIndex},NextPosition{scrollEvent.NextPosition},rate{scrollEvent.Rate}");
         }
@@ -219,6 +238,8 @@ namespace Plugin.TablayoutPlugin.Android
             _nowScrollX = e.ScrollX;
             _scrollRightDire = e.ScrollX > e.OldScrollX;
         }
+
+
 
         protected override void Dispose(bool disposing)
         {
