@@ -31,7 +31,7 @@ namespace TestApp.Views
 
                 datas.Add($"第{i + 1}项");
             }
-            myList2.ItemSource = datas;
+            //myList2.ItemSource = datas;
             testPager.PageIndexChanged += TestPager_PageIndexChanged;
             //BindableLayout.SetItemsSource(stLayout, datas);          
             // myList.ItemsSource = new List<string>() { "11","22","33","44","55","666"};

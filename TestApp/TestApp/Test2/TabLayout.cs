@@ -16,7 +16,9 @@ namespace TestApp.Test2
         #region DataTemplet
         public static readonly BindableProperty ItemTemplateProperty = BindableProperty.Create(
             nameof(ItemTemplate), typeof(DataTemplate), typeof(TabLayout),
-            default(DataTemplate)
+            default(DataTemplate),
+              propertyChanged: (obj, o, n) => (
+            (TabLayout)obj).DataTempletRender()
          );
 
         public DataTemplate ItemTemplate
@@ -25,13 +27,29 @@ namespace TestApp.Test2
 
             set => SetValue(ItemTemplateProperty, value);
         }
+
+        void DataTempletRender()
+        {
+            if (this.ItemSource == null)
+            {
+                return;
+            }
+            foreach (var item in ItemSource)
+            {
+                var view = ItemTemplate.CreateContent() as View;
+                view.BindingContext = item;
+                Children.Add(view);
+                sourceViews.Add(view);
+            }
+        }
         #endregion
 
         #region ItemSource
         public static readonly BindableProperty ItemSourceProperty = BindableProperty.Create(
             nameof(ItemSource), typeof(IList), typeof(TabLayout),
             default(IList),
-            propertyChanged: (obj, o, n) => ((TabLayout)obj).DataRender()
+            propertyChanged: (obj, o, n) => (
+            (TabLayout)obj).DataRender()
             );
 
 
@@ -42,6 +60,20 @@ namespace TestApp.Test2
             set { SetValue(ItemSourceProperty, value); }
         }
 
+        void DataRender()
+        {
+            if (ItemTemplate == null)
+            {
+                return;
+            }
+            foreach (var item in ItemSource)
+            {
+                var view = ItemTemplate.CreateContent() as View;
+                view.BindingContext = item;
+                Children.Add(view);
+                sourceViews.Add(view);
+            }
+        }
 
         #endregion
 
@@ -120,26 +152,8 @@ namespace TestApp.Test2
         }
         #endregion
 
-      
-        void DataRender()
-        {
-            if (ItemSource == null)
-            {
-                sourceViews.Clear();
-                return;
-            }
-            if (ItemTemplate == null)
-            {
-                return;
-            }
-            foreach (var item in ItemSource)
-            {
-                var view = ItemTemplate.CreateContent() as View;
-                view.BindingContext = item;
-                Children.Add(view);
-                sourceViews.Add(view);
-            }
-        }
+
+
 
         void LinkToViewPager()
         {

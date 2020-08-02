@@ -7,7 +7,7 @@
              mc:Ignorable="d"             
              x:Class="TestApp.Views.ItemsPage"
              Title="测试"
-             
+                xmlns:scg="clr-namespace:System.Collections.Generic;assembly=netstandard"
              x:Name="BrowseItemsPage">
     <Shell.TitleView>
         <StackLayout BackgroundColor="Transparent" Padding="0" Margin="5" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
@@ -25,9 +25,20 @@
                              TabType="LinearLayout"
                              test2:TabLayout.ItemsSourceBy="testPager">
                 <test2:TabLayout.AnimateHelper>
-                    <test2:BarAnimateHelper BarHeight="5" BorderRadius="15" WidthScale=".5">
-                    </test2:BarAnimateHelper>
+                    <test2:StretchBarAnimateHelper BarHeight="5" BorderRadius="15" WidthScale=".5">
+                    </test2:StretchBarAnimateHelper>
                 </test2:TabLayout.AnimateHelper>
+                <test2:TabLayout.ItemSource>
+                    <scg:List x:TypeArguments="x:String">
+                        <x:String>Baboon</x:String>
+                        <x:String>Capuchin Monkey</x:String>
+                        <x:String>Blue Monkey</x:String>
+                        <x:String>Squirrel Monkey</x:String>
+                        <x:String>Golden Lion Tamarin</x:String>
+                        <x:String>Howler Monkey</x:String>
+                        <x:String>Japanese Macaque</x:String>
+                    </scg:List>
+                </test2:TabLayout.ItemSource>
                 <test2:TabLayout.ItemTemplate>
                     <DataTemplate>
                         <ContentView >
