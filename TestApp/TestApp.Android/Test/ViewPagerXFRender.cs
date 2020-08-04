@@ -24,7 +24,8 @@ namespace TestApp.Droid.Test
         ViewPagerXF _xFViewPager = null;
 
         int XFPagerIndex => _xFViewPager.PageIndex;
-        bool isFirst;
+
+   
         int _nowScrollX;
         bool _scrollRightDire;
         int _pointState = -1;
@@ -102,23 +103,13 @@ namespace TestApp.Droid.Test
             if (_viewPager.Adapter == null)
             {
                 var fm = Context.GetFragmentManager();
-                ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(fm, _xFViewPager.Children);
+                ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(fm, _xFViewPager.PageElements);
                 _viewPager.OffscreenPageLimit = _xFViewPager.PageCacheCount;
                 _viewPager.Adapter = pagerAdapter;
             }
         }
 
-        protected override void OnLayout(bool changed, int left, int top, int right, int bottom)
-        {
-            base.OnLayout(changed, left, top, right, bottom);
-            if (!isFirst)
-            {
-
-                isFirst = true;
-            }
-        }
-
-
+      
         void PageScrollStateChanged_Default(object sender, ViewPager.PageScrollStateChangedEventArgs e)
         {
             _pointState = e.State;
@@ -126,7 +117,7 @@ namespace TestApp.Droid.Test
             {
                 var oldIndex = Element.PageIndex;
                 _xFViewPager.SetPageIndexByRender(_viewPager.CurrentItem);
-                if (oldIndex!=_viewPager.CurrentItem)
+                if (oldIndex != _viewPager.CurrentItem)
                 {
                     Element.PageIndexChangedDoneByRender();
                 }
@@ -246,5 +237,5 @@ namespace TestApp.Droid.Test
             base.Dispose(disposing);
         }
     }
-
+  
 }

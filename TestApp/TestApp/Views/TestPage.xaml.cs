@@ -44,5 +44,14 @@ namespace TestApp.Views
         }
 
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+        }
     }
 }

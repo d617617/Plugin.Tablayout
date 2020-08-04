@@ -1,17 +1,22 @@
 ﻿using Android.Content;
 using Android.Support.V4.View;
 using Android.Views;
+using System;
 using TestApp.Test;
 using Xamarin.Forms;
 
 namespace TestApp.Droid.Test
 {
-    public class MyViewPager : ViewPager
+    public class MyViewPager : ViewPager, IPagerElement
     {
-        public bool IsNotScrollByTouch { get; set; }
+        public bool IsNotScrollByTouch { get; set; }      
+
+        public event Action<int, int> ViewPagerLayoutEvent;
+
         public MyViewPager(Context context) : base(context)
         {
         }
+
 
         /// <summary>
         /// 
@@ -32,6 +37,22 @@ namespace TestApp.Droid.Test
         {
             return IsNotScrollByTouch ? false : base.OnTouchEvent(e);
         }
+
+        protected override void OnMeasure(int widthMeasureSpec, int heightMeasureSpec)
+        {
+            base.OnMeasure(widthMeasureSpec, heightMeasureSpec);
+        }
+        protected override void OnLayout(bool changed, int l, int t, int r, int b)
+        {
+            base.OnLayout(changed, l, t, r, b);
+            ViewPagerLayoutEvent?.Invoke(Math.Abs(r - l), Math.Abs(b - t));
+        }
     }
 
+    public interface IPagerElement
+    {  
+
+        event Action<int, int> ViewPagerLayoutEvent;
+
+    }
 }

@@ -6,7 +6,7 @@
              xmlns:test2="clr-namespace:TestApp.Test2" xmlns:test="clr-namespace:TestApp.Test" xmlns:views="clr-namespace:TestApp.Views"
              mc:Ignorable="d"             
              x:Class="TestApp.Views.ItemsPage"
-             Title="测试"
+             Title="测试"           
                 xmlns:scg="clr-namespace:System.Collections.Generic;assembly=netstandard"
              x:Name="BrowseItemsPage">
     <Shell.TitleView>
@@ -49,11 +49,16 @@
             </test2:TabLayout>
         </test2:ScrollWrapper>
         <test:ViewPagerXF x:Name="testPager" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-            <views:TestView Title2="第一页"></views:TestView>
-            <views:TestView Title2="第二页"></views:TestView>
-            <views:TestView Title2="第三页"></views:TestView>
-            <views:TestView Title2="第四页"></views:TestView>
-            <views:TestView Title2="第五页"></views:TestView>
+            <test:ViewPagerXF.VisualElements>
+                <views:TestPage></views:TestPage>
+                <ContentView>
+                    <Label Text="我说contentView"></Label>
+                </ContentView>
+                <StackLayout >
+                    <Label Text="{Binding Test, Source={Reference BrowseItemsPage}}"></Label>
+                </StackLayout>
+                <views:TestPage></views:TestPage>
+            </test:ViewPagerXF.VisualElements>
         </test:ViewPagerXF>
 
     </StackLayout>

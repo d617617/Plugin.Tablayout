@@ -25,7 +25,8 @@ namespace Plugin.TablayoutPlugin.Android
         ViewPagerXF _xFViewPager = null;
 
         int XFPagerIndex => _xFViewPager.PageIndex;
-        bool isFirst;
+
+
         int _nowScrollX;
         bool _scrollRightDire;
         int _pointState = -1;
@@ -103,19 +104,9 @@ namespace Plugin.TablayoutPlugin.Android
             if (_viewPager.Adapter == null)
             {
                 var fm = Context.GetFragmentManager();
-                ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(fm, _xFViewPager.Children);
+                ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(fm, _xFViewPager.PageElements);
                 _viewPager.OffscreenPageLimit = _xFViewPager.PageCacheCount;
                 _viewPager.Adapter = pagerAdapter;
-            }
-        }
-
-        protected override void OnLayout(bool changed, int left, int top, int right, int bottom)
-        {
-            base.OnLayout(changed, left, top, right, bottom);
-            if (!isFirst)
-            {
-
-                isFirst = true;
             }
         }
 

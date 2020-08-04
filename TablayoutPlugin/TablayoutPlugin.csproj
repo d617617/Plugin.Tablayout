@@ -14,10 +14,10 @@
     <PackageId>Plugin.TablayoutPlugin</PackageId>
     
     <Product>$(AssemblyName) ($(TargetFramework))</Product>
-    <AssemblyVersion>1.0.3.1</AssemblyVersion>
-    <AssemblyFileVersion>1.0.3.1</AssemblyFileVersion>
-    <Version>1.0.3.1</Version>
-    <PackageVersion>1.0.3.1</PackageVersion>
+    <AssemblyVersion>1.1.0.0</AssemblyVersion>
+    <AssemblyFileVersion>1.1.0.0</AssemblyFileVersion>
+    <Version>1.1.0.0</Version>
+    <PackageVersion>1.1.0.0</PackageVersion>
     <PackOnBuild>true</PackOnBuild>
     <NeutralLanguage>en</NeutralLanguage>
     <LangVersion>default</LangVersion>
@@ -46,7 +46,7 @@
     <Authors>Liwuyang</Authors>
     <Copyright>Copyright 2018</Copyright>
     <UserSecretsId>1e6ae5d7-c748-4ab8-b079-a27ca9fae10d</UserSecretsId>
-    <FileVersion>1.0.3.1</FileVersion>
+    <FileVersion>1.1.0.0</FileVersion>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>

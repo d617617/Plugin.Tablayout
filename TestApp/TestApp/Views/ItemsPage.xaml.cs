@@ -20,6 +20,7 @@ namespace TestApp.Views
     {
         ItemsViewModel viewModel;
 
+        public string Test { get; set; } = "我i是手动阀手动阀";
         public ItemsPage()
         {
             InitializeComponent();
@@ -32,6 +33,7 @@ namespace TestApp.Views
                 datas.Add($"第{i + 1}项");
             }
             //myList2.ItemSource = datas;
+            var vc = testPager.PageElements;
             testPager.PageIndexChanged += TestPager_PageIndexChanged;
             //BindableLayout.SetItemsSource(stLayout, datas);          
             // myList.ItemsSource = new List<string>() { "11","22","33","44","55","666"};

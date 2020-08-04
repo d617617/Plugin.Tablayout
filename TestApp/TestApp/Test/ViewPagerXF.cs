@@ -6,13 +6,14 @@ using Xamarin.Forms;
 
 namespace TestApp.Test
 {
-    public class ViewPagerXF : Layout<View>
+    public class ViewPagerXF : View
     {
 
         public ViewPagerXF()
         {
-
+            PageElements = new List<VisualElement>();
         }
+
         #region PageIndex
 
         public int PageIndex
@@ -39,6 +40,7 @@ namespace TestApp.Test
 
         }
         #endregion
+      
 
         public bool IsNotScrollByTouch { get; set; }
 
@@ -46,6 +48,8 @@ namespace TestApp.Test
 
         public event Action<object, EventArgs> PageIndexChanged;
         public event Action<object, PagerScrollEventArgs> PagerScroll;
+
+        public List<VisualElement> PageElements { get; set; }
 
 
         #region 由渲染器调用
@@ -74,7 +78,7 @@ namespace TestApp.Test
         public Action<int, bool> SetPageIndexAction;
         public void SetPageIndex(int targetIndex, bool isSmooth)
         {
-            if (targetIndex == PageIndex || targetIndex < 0 || targetIndex >= Children.Count)
+            if (targetIndex == PageIndex || targetIndex < 0 || targetIndex >= PageElements.Count)
             {
                 return;
             }
@@ -84,41 +88,8 @@ namespace TestApp.Test
         #endregion
 
 
-        protected override SizeRequest OnMeasure(double widthConstraint, double heightConstraint)
-        {
-            if (Children.Count == 0)
-            {
-                return base.OnMeasure(widthConstraint, heightConstraint);
-            }
-            else
-            {
-                if (double.IsInfinity(heightConstraint))
-                {
-                    return new SizeRequest(new Size(widthConstraint, 0));
-                }
-                else
-                {
-                    return new SizeRequest(new Size(widthConstraint, heightConstraint));
-                }
-            }
 
-        }
-
-
-        protected override void LayoutChildren(double x, double y, double width, double height)
-        {
-            if (Children.Count == 0)
-            {
-                return;
-            }
-            double itemX = x;
-            foreach (var item in Children)
-            {
-                item.Layout(new Rectangle(itemX, y, width, height));
-                itemX += width;
-            }
-        }
-
-        
     }
+
+   
 }

@@ -7,31 +7,31 @@ namespace TestApp.Droid.Test
 {
     public class ViewPagerAdapter : FragmentStatePagerAdapter
     {
-        public IList<Xamarin.Forms.View> XFViews { get; set; }        
+        public IList<Xamarin.Forms.VisualElement> Elements { get; set; }        
 
-        public override int Count =>XFViews.Count;
+        public override int Count =>Elements.Count;
 
 
 
-        public ViewPagerAdapter(FragmentManager fm, IList<Xamarin.Forms.View> views)
+        public ViewPagerAdapter(FragmentManager fm, IList<Xamarin.Forms.VisualElement> views)
 
             : base(fm)
         {
-            XFViews = new List<Xamarin.Forms.View>();
-            this.XFViews = views;
+            Elements = new List<Xamarin.Forms.VisualElement>();
+            this.Elements = views;
         }
 
     
         public override Fragment GetItem(int position)
         {          
-            ViewPagerFragment fragment = new ViewPagerFragment(XFViews[position]);
+            ViewPagerFragment fragment = new ViewPagerFragment(Elements[position]);
             return fragment;
         }
 
 
         protected override void Dispose(bool disposing)
         {
-            XFViews.Clear();            
+            Elements.Clear();            
             base.Dispose(disposing);
         }
 

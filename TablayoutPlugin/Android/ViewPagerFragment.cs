@@ -17,25 +17,88 @@ namespace Plugin.TablayoutPlugin.Android
 {
     public class ViewPagerFragment : Fragment
     {
-        Xamarin.Forms.View XFView { get; }
-        public ViewPagerFragment(Xamarin.Forms.View view)
+        Xamarin.Forms.VisualElement element { get; set; }
+        IPagerElement PagerElement;
+        int PagerWidth = 0;
+        int PagerHeight = 0;
+
+
+        public ViewPagerFragment(Xamarin.Forms.VisualElement element)
         {
-            this.XFView = view;
+            this.element = element;
+
         }
+
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            var view = ConvertXFPageToNative(XFView, Context);
+            var view = ConvertXFPageToNative(element, Context);
+            PagerElement = container as IPagerElement;
+            if (container.Height != 0 && container.Width != 0)
+            {
+                this.PagerWidth = container.Width;
+                this.PagerHeight = container.Height;
+            }
             return view;
         }
 
-        public View ConvertXFPageToNative(Xamarin.Forms.View contentView, Context context)
+
+        public override void OnStart()
         {
-            var vRenderer = contentView.GetRenderer();
+            base.OnStart();
+            if (PagerHeight != 0)
+            {
+                LayoutXFElement();
+            }
+            else if (PagerElement != null)
+            {
+                PagerElement.ViewPagerLayoutEvent += PagerElement_LayoutEvent;
+            }
+            if (element is Shared.IViewPagerElement pagerElement)
+            {
+                pagerElement.OnStart();
+            }
+        }
+
+        public override void OnDestroyView()
+        {
+            base.OnDestroyView();
+            if (element is Shared.IViewPagerElement pagerElement)
+            {
+                pagerElement.OnDestory();
+            }
+        }
+
+
+        /// <summary>
+        /// 当viewpager layout的时候，layoutxf的view
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        void PagerElement_LayoutEvent(int width, int height)
+        {
+            this.PagerWidth = width;
+            this.PagerHeight = height;
+            LayoutXFElement();
+            PagerElement.ViewPagerLayoutEvent -= PagerElement_LayoutEvent;
+        }
+
+        private void LayoutXFElement()
+        {
+            var des = Resources.DisplayMetrics.Density;
+            var xfWidth = PagerWidth / des;
+            var xfHeight = PagerHeight / des;
+            element.Measure(xfWidth, xfHeight);
+            element.Layout(new Xamarin.Forms.Rectangle(0, 0, xfWidth, xfHeight));
+        }
+
+        public View ConvertXFPageToNative(Xamarin.Forms.VisualElement element, Context context)
+        {
+            var vRenderer = element.GetRenderer();
             if (vRenderer == null)
             {
-                Platform.SetRenderer(contentView, Platform.CreateRendererWithContext(contentView, context));
-                vRenderer = contentView.GetRenderer();
+                Platform.SetRenderer(element, Platform.CreateRendererWithContext(element, context));
+                vRenderer = element.GetRenderer();
             }
             var nativeView = vRenderer.View;
             nativeView.RemoveFromParent();
@@ -43,27 +106,6 @@ namespace Plugin.TablayoutPlugin.Android
             return nativeView;
         }
 
-        public View ConvertXFPageToNative(Xamarin.Forms.Page page, Context context)
-        {
-            var vRenderer = page.GetRenderer();
-            if (vRenderer == null)
-            {
-                Platform.SetRenderer(page, Platform.CreateRendererWithContext(page, context));
-                vRenderer = page.GetRenderer();
-            }
-            var nativeView = vRenderer.View;
-            nativeView.RemoveFromParent();
-            vRenderer.Tracker.UpdateLayout();           
-            return nativeView;
-        }
 
-        public override void OnDestroyView()
-        {
-            base.OnDestroyView();
-            if (XFView is IDisposable)
-            {
-                ((IDisposable)XFView).Dispose();
-            }
-        }
     }
 }
