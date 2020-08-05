@@ -2,15 +2,18 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              mc:Ignorable="d"
              x:Class="TestApp.Views.TestPage">
     <ContentPage.Content>
-        <StackLayout BackgroundColor="Red">
+        <StackLayout >
             <Label Text="测试页" x:Name="lbl" TextColor="Yellow"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
             <Button Text="跳转测试" Clicked="Button_Clicked"></Button>
+            <ContentView></ContentView>
+            <forms:CachedImage Source="user.png" HeightRequest="90" WidthRequest="80"></forms:CachedImage>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

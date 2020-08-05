@@ -7,7 +7,8 @@
              mc:Ignorable="d"             
              x:Class="TestApp.Views.ItemsPage"
              Title="测试"           
-                xmlns:scg="clr-namespace:System.Collections.Generic;assembly=netstandard"
+             NavigationPage.HasNavigationBar="False"
+             xmlns:scg="clr-namespace:System.Collections.Generic;assembly=netstandard"
              x:Name="BrowseItemsPage">
     <Shell.TitleView>
         <StackLayout BackgroundColor="Transparent" Padding="0" Margin="5" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
@@ -17,10 +18,7 @@
 
 
     <StackLayout>
-        <Button Text="点击测试" Clicked="Button_Clicked"></Button>
-        <Label  x:Name="testLbl"></Label>
-
-        <test2:ScrollWrapper x:Name="wrapper">
+        <!--<test2:ScrollWrapper x:Name="wrapper">
             <test2:TabLayout Space="15" x:Name="myList2" Padding="0,10"
                              TabType="LinearLayout"
                              test2:TabLayout.ItemsSourceBy="testPager">
@@ -47,8 +45,8 @@
                     </DataTemplate>
                 </test2:TabLayout.ItemTemplate>
             </test2:TabLayout>
-        </test2:ScrollWrapper>
-        <test:ViewPagerXF x:Name="testPager" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+        </test2:ScrollWrapper>-->
+        <test:ViewPagerXF x:Name="testPager"  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
             <test:ViewPagerXF.PageElements>
                 <views:TestPage></views:TestPage>
                 <ContentView>
@@ -60,7 +58,16 @@
                 <views:TestPage></views:TestPage>
             </test:ViewPagerXF.PageElements>
         </test:ViewPagerXF>
-
+        <FlexLayout  Direction="Row" Wrap="NoWrap" JustifyContent="SpaceAround" AlignItems="Stretch" VerticalOptions="End" x:Name="bottomTabs">
+            <BindableLayout.ItemTemplate >
+                <DataTemplate>
+                    <StackLayout >
+                        <Label Text="{Binding TabIcon}" ></Label>
+                        <Label Text="{Binding TabName}" ></Label>
+                    </StackLayout>
+                </DataTemplate>
+            </BindableLayout.ItemTemplate>
+        </FlexLayout>
     </StackLayout>
 
 </ContentPage>

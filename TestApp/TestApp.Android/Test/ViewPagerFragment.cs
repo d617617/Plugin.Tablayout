@@ -109,8 +109,8 @@ namespace TestApp.Droid.Test
                 vRenderer = element.GetRenderer();
             }
             var nativeView = vRenderer.View;
-            nativeView.RemoveFromParent();
-            vRenderer.Tracker.UpdateLayout();
+            //nativeView.RemoveFromParent();
+            //vRenderer.Tracker.UpdateLayout();
             return nativeView;
         }
 

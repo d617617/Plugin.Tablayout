@@ -39,38 +39,54 @@ namespace TestApp.Views
             // myList.ItemsSource = new List<string>() { "11","22","33","44","55","666"};
         }
 
+        public List<TabItem> BottomTabItems { get; set; }
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            BottomTabItems = new List<TabItem>();
+            BottomTabItems.Add(new TabItem()
+            {
+                Id = 0,
+                TabIcon = "学习",
+                TabName = "学习"
+            });
+            BottomTabItems.Add(new TabItem()
+            {
+                Id = 1,
+                TabIcon = "学习",
+                TabName = "设备"
+            });
+            BottomTabItems.Add(new TabItem()
+            {
+                Id = 2,
+                TabIcon = "学习",
+                TabName = "设置"
+            });
+            BottomTabItems.Add(new TabItem()
+            {
+                Id = 2,
+                TabIcon = "学习",
+                TabName = "设置"
+            });
+            BindableLayout.SetItemsSource(bottomTabs, BottomTabItems);
+
+        }
+
         private void TestPager_PageIndexChanged(object arg1, EventArgs arg2)
         {
             
         }
 
-        //private  async Task Button_Clicked(object sender, EventArgs e)
-        //{
-        //    Random r = new Random();
-        //    //this.myList2.TabType = Test2.TabType.Grid;
-        //    ////this.testPager.SetPageIndex(3, true);
-        //    ////myList.Test();
-        //    //this.wrapper.ScrollToIndex(8);
-        //    await Shell.Current.GoToAsync("//test");
-        //}
+      
+       
+    
+    }
 
-        private async Task TapGestureRecognizer_Tapped(object sender, EventArgs e)
-        {
+    public class TabItem
+    {
+        public int Id { get; set; }
+        public string TabName { get; set; }
 
-        }
-
-        bool isStop = true;
-         async void Button_Clicked(object sender, EventArgs e)
-        {
-            //while (true)
-            //{
-            //    if (isStop)
-            //    {
-            //        return;
-            //    }
-            //    await this.testLbl.RotateTo(360);
-            //    testLbl.Rotation = 0;
-            //}
-        }
+        public string TabIcon { get; set; }
     }
 }

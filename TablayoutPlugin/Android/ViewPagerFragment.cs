@@ -108,8 +108,8 @@ namespace Plugin.TablayoutPlugin.Android
                 vRenderer = element.GetRenderer();
             }
             var nativeView = vRenderer.View;
-            nativeView.RemoveFromParent();
-            vRenderer.Tracker.UpdateLayout();
+            //nativeView.RemoveFromParent();
+            //vRenderer.Tracker.UpdateLayout();
             return nativeView;
         }
 
