@@ -49,7 +49,7 @@
             </test2:TabLayout>
         </test2:ScrollWrapper>
         <test:ViewPagerXF x:Name="testPager" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-            <test:ViewPagerXF.VisualElements>
+            <test:ViewPagerXF.PageElements>
                 <views:TestPage></views:TestPage>
                 <ContentView>
                     <Label Text="我说contentView"></Label>
@@ -58,7 +58,7 @@
                     <Label Text="{Binding Test, Source={Reference BrowseItemsPage}}"></Label>
                 </StackLayout>
                 <views:TestPage></views:TestPage>
-            </test:ViewPagerXF.VisualElements>
+            </test:ViewPagerXF.PageElements>
         </test:ViewPagerXF>
 
     </StackLayout>

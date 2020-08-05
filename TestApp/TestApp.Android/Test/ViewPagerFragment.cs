@@ -58,7 +58,14 @@ namespace TestApp.Droid.Test
             if (element is IViewPagerElement pagerElement)
             {
                 pagerElement.OnStart();
-            }
+            }         
+            var _navigation = Xamarin.Forms.Application.Current.MainPage.Navigation;
+            if (_navigation!=null)
+            {
+                var type = element.GetType();
+                var prop = type.GetProperty(nameof(element.Navigation));
+                prop.SetValue(element, _navigation);
+            }              
         }
 
         public override void OnDestroyView()

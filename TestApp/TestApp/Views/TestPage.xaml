@@ -10,6 +10,7 @@
             <Label Text="测试页" x:Name="lbl" TextColor="Yellow"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
+            <Button Text="跳转测试" Clicked="Button_Clicked"></Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
